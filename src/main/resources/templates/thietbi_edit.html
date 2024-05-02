@@ -1,0 +1,18 @@
+<div>Customer - Edit</div>
+<form th:action="@{/thietbi/update}" th:object="${thietbi}" method="POST">
+
+
+    <div class="row">
+        <label>Mã TB</label><input type="number" disabled="" th:field="*{MaTB}" class="form-control"/>
+    </div>
+
+    <div class="row">
+        <label>Tên TB</label><input type="text" th:field="*{TenTB}" class="form-control"/>
+    </div>
+
+    <div class="row">
+        <label>Mô Tả</label><input type="text" th:field="*{MoTaTB}" class="form-control"/>
+    </div>
+
+    <input type="submit" value="Update" class="btn btn-primary"/>
+</form>
