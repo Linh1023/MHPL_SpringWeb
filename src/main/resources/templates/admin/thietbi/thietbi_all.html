@@ -1,0 +1,57 @@
+<div class="row justify-content-between">
+    <div class="col-md-6 col-12">
+        <form id="search-form ">
+            <div class="mb-sm-2 row">
+                <div class="col-md-5 col-12">
+                    <select name="category" class="form-control" id="exampleFormControlSelect1">
+                        <option>Tên Thiết Bị</option>
+                        <option>Mã Thiết Bị</option>
+                        <option>Mô Tả Thiết Bị</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control border border-secondary" placeholder="Tìm kiếm theo Mã/Họ tên" aria-label="Search" aria-describedby="basic-addon1">
+                        <button class="btn btn-outline-secondary" name="s" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-12 col-md-4">
+        <button type="button" class="btn btn-danger" style="margin-right: 10px;" onclick="deleteWithCondition(this)" data-id="12">Xóa theo khóa</button>
+        <a class="btn btn-success" href="/admin/thietbi/add/">Thêm mới</a>
+    </div>
+</div>
+<div>List of thietbi</div>
+
+<table  border="1" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th><input id="checkbox-all" type="checkbox"> </th>
+            <th>STT</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each ="item, state: ${list}">
+            <td><input type="checkbox" name="post[]" class="check-${item.maTB}" th:value="${item.maTB}">
+            </td>
+            <td th:utext = "${state.count}"></td>
+            <td th:utext = "${item.MaTB}"></td>
+            <td th:utext = "${item.TenTB}"></td>
+            <td th:utext = "${item.MoTaTB}"></td>
+            <td class="row-">
+                <a class="btn btn-success" th:href="'/thietbi/'+ ${item.MaTB}">Xem</a>
+                <a class="btn btn-warning" th:href="'/admin/thietbi/edit/'+ ${item.MaTB}">Sửa</a>
+                <a class="btn btn-danger" th:href="'/admin/thietbi/delete/'+ ${item.MaTB}">Xóa</a></td>
+        </tr>  
+    </tbody>
+
+
+
+</table>

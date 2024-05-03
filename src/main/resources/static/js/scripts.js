@@ -1,9 +1,9 @@
 /*!
-    * Start Bootstrap - SB Admin v7.0.7 (https://startbootstrap.com/template/sb-admin)
-    * Copyright 2013-2023 Start Bootstrap
-    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
-    */
-    // 
+ * Start Bootstrap - SB Admin v7.0.7 (https://startbootstrap.com/template/sb-admin)
+ * Copyright 2013-2023 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
+ */
+// 
 // Scripts
 // 
 
@@ -24,3 +24,16 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+
+window.onload = function () {
+    var checkboxAll = document.getElementById('checkbox-all');
+
+    var checkboxes = document.querySelectorAll('.table tbody input[type="checkbox"]');
+
+    checkboxAll.addEventListener('change', function () {
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = checkboxAll.checked;
+        });
+    });
+};

@@ -17,28 +17,28 @@ public class ThietBiController {
     @Autowired
     private ThietBiRepository thietbiRepository;
 
-    @GetMapping(value = "/thietbi/all")
+    @GetMapping(value = "/admin/thietbi/all")
     public String getAll(Model m) {
         Iterable<ThietBi> list = thietbiRepository.findAll();
         m.addAttribute("list", list);
-        m.addAttribute("templateName", "thietbi_all");
-        return "sample";
+        m.addAttribute("templateName", "admin/thietbi/thietbi_all");
+        return "admin/sample";
     }
 
-    @GetMapping(value = {"thietbi/edit/{id}"})
+    @GetMapping(value = {"/admin/thietbi/edit/{id}"})
     public String edit(@PathVariable("id") int id, Model m) {
         Optional<ThietBi> cus = thietbiRepository.findById(id);
         cus.ifPresent(thietbi -> m.addAttribute("thietbi", cus));
-        m.addAttribute("templateName", "thietbi_edit");
-        return "sample";
+        m.addAttribute("templateName", "admin/thietbi/thietbi_edit");
+        return "admin/sample";
     }
 
-    @GetMapping("/thietbi/add")
+    @GetMapping("/admin/thietbi/add")
     public String register(Model m) {
         ThietBi cus = new ThietBi();
         m.addAttribute("thietbi", cus);
-        m.addAttribute("templateName", "thietbi_register");
-        return "sample";
+        m.addAttribute("templateName", "admin/thietbi/thietbi_register");
+        return "admin/sample";
     }
 
 //    @GetMapping(value = "/thietbi/index")
@@ -46,7 +46,7 @@ public class ThietBiController {
 //    Iterable getAllList(Model m) {
 //        return thietbiRepository.findAll();
 //    }
-    @PostMapping("/thietbi/update")
+    @PostMapping("/admin/thietbi/update")
     public String update(Model m, @ModelAttribute("thietbi") ThietBi thietbi) {
         Optional<ThietBi> tb = thietbiRepository.findById(thietbi.getMaTB());
         ThietBi c;
@@ -55,29 +55,29 @@ public class ThietBiController {
         c.setTenTB(thietbi.getTenTB());
         c.setMoTaTB(thietbi.getMoTaTB());
         thietbiRepository.save(c);
-        return "redirect:/thietbi/all";
+        return "redirect:/admin/thietbi/all";
     }
 
-    @GetMapping(value = {"/thietbi/delete/{id}"})
+    @GetMapping(value = {"/admin/thietbi/delete/{id}"})
     public String delete(Model m, @PathVariable("id") int id) {
         Optional<ThietBi> thietbiOptional = thietbiRepository.findById(id);
 
         if (thietbiOptional.isPresent()) {
             ThietBi thietbi = thietbiOptional.get();
             thietbiRepository.delete(thietbi);
-            return "redirect:/thietbi/all";
+            return "redirect:/admin/thietbi/all";
         } else {
             // Handle the case where the thietbi with the given id doesn't exist
-            return "redirect:/thietbi/all";
+            return "redirect:/admin/thietbi/all";
         }
     }
 
-    @PostMapping("/thietbi/save")
+    @PostMapping("/admin/thietbi/save")
     public String save(Model m, @ModelAttribute("thietbi") ThietBi thietbi) {
 
         thietbiRepository.save(thietbi);
 
-        return "redirect:/thietbi/all";
+        return "redirect:/admin/thietbi/all";
 
     }
 }

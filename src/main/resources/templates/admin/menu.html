@@ -1,6 +1,6 @@
 <div th:fragment="menu" >
     <div class="nav">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/admin/index.html">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Dashboard
         </a>
@@ -12,8 +12,8 @@
         </a>
         <div class="collapse" id="collapseThanhVien" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="/thanhvien/all">Tất Cả Thành Viên</a>
-                <a class="nav-link" href="/thanhvien/add">Thêm Thành Viên</a>
+                <a class="nav-link" href="/admin/thanhvien/all">Tất Cả Thành Viên</a>
+                <a class="nav-link" href="/admin/thanhvien/add">Thêm Thành Viên</a>
             </nav>
         </div>
         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseThongTinSD" aria-expanded="false" aria-controls="collapseLayouts">
@@ -23,8 +23,8 @@
         </a>
         <div class="collapse" id="collapseThongTinSD" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="/thongtinsd/all">Tất Cả Thông Tin SD</a>
-                <a class="nav-link" href="/thongtinsd/add">Thêm Thông Tin SD</a>
+                <a class="nav-link" href="/admin/thongtinsd/all">Tất Cả Thông Tin SD</a>
+                <a class="nav-link" href="/admin/thongtinsd/add">Thêm Thông Tin SD</a>
             </nav>
         </div>
         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseThietBi" aria-expanded="false" aria-controls="collapseLayouts">
@@ -34,8 +34,8 @@
         </a>
         <div class="collapse" id="collapseThietBi" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="/thietbi/all">Tất Cả Thiết Bị</a>
-                <a class="nav-link" href="/thietbi/add">Thêm Thiết Bị</a>
+                <a class="nav-link" href="/admin/thietbi/all">Tất Cả Thiết Bị</a>
+                <a class="nav-link" href="/admin/thietbi/add">Thêm Thiết Bị</a>
             </nav>
         </div>
         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseXuLyViPham" aria-expanded="false" aria-controls="collapseLayouts">
@@ -45,10 +45,30 @@
         </a>
         <div class="collapse" id="collapseXuLyViPham" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="/xulyvipham/all">Tất Cả Xử Lý Vi Phạm</a>
-                <a class="nav-link" href="/xulyvipham/add">Thêm Xử Lý Vi Phạm</a>
+                <a class="nav-link" href="/admin/xulyvipham/all">Tất Cả Xử Lý Vi Phạm</a>
+                <a class="nav-link" href="admin/xulyvipham/add">Thêm Xử Lý Vi Phạm</a>
             </nav>
         </div>
+        <div class="sb-sidenav-menu-heading">Thống Kê</div>
+        <a class="nav-link" href="#">
+            <div class="sb-nav-link-icon"></div>
+            Thống Kê Vi Phạm
+        </a>
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTKThietBi" aria-expanded="false" aria-controls="collapseLayouts">
+            <div class="sb-nav-link-icon"></i></div>
+            Thông Kê Thiết Bị
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapseTKThietBi" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="#">Thiết Bị Đã Mượn</a>
+                <a class="nav-link" href="#">Thiệt Bị Đang Mượn</a>
+            </nav>
+        </div>
+        <a class="nav-link" href="#">
+            <div class="sb-nav-link-icon"></div>
+            Thống Kê Thành Viên
+        </a>
         <div class="sb-sidenav-menu-heading">Trang</div>
         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
