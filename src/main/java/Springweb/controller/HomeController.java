@@ -16,4 +16,17 @@ public class HomeController {
         model.addAttribute("templateName", "admin/home.html");
         return "admin/sample";
     }
+    @GetMapping(value = {"/login","/login/","/login.html"})
+    public String login() {
+        return "login";
+    }
+    @GetMapping(value = {"/register","/register/","/register.html"})
+    public String register(Model model) {
+        return "register";
+    }
+    @GetMapping(value = {"/password","/password/","password.html"})
+    public String paswword(Model model) {
+        return "password";
+    }
+    
 }

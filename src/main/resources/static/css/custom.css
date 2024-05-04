@@ -7,12 +7,3 @@
     height: 1.3125rem;
     width: 1.3125rem;
 }*/
-nav#sidenavAccordion{
-    position:sticky;
-    top:55px;
-    height:100vh;
-}
-.sb-topnav{
-    position: sticky;
-    top:0;
-}
