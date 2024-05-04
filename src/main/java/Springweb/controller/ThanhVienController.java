@@ -27,31 +27,31 @@ public class ThanhVienController {
     @Autowired
     private ThanhVienRepository thanhvienRepository;
     
-    @GetMapping(value = "/thanhvien/all")
+    @GetMapping(value = "/admin/thanhvien/all")
     public String getAll(Model m) {
         Iterable<ThanhVien> list = thanhvienRepository.findAll();
         m.addAttribute("list", list);
-        m.addAttribute("templateName", "thanhvien_all");
-        return "sample";
+        m.addAttribute("templateName", "admin/thanhvien/thanhvien_all");
+        return "admin/sample";
     }
 
-    @GetMapping(value = {"thanhvien/edit/{id}"})
+    @GetMapping(value = {"/admin/thanhvien/edit/{id}"})
     public String edit(@PathVariable("id") int id, Model m) {
         Optional<ThanhVien> cus = thanhvienRepository.findById(id);
         cus.ifPresent(thanhvien -> m.addAttribute("thanhvien", cus));
-        m.addAttribute("templateName", "thanhvien_edit");
-        return "sample";
+        m.addAttribute("templateName", "admin/thanhvien/thanhvien_edit");
+        return "admin/sample";
     }
 
-    @GetMapping("/thanhvien/add")
+    @GetMapping("/admin/thanhvien/add")
     public String register(Model m) {
         ThanhVien cus = new ThanhVien();
         m.addAttribute("thanhvien", cus);
-        m.addAttribute("templateName", "thanhvien_register");
-        return "sample";
+        m.addAttribute("templateName", "admin/thanhvien/thanhvien_register");
+        return "admin/sample";
     }
     
-    @PostMapping("/thanhvien/update")
+    @PostMapping("/admin/thanhvien/update")
     public String update(Model m, @ModelAttribute("thanhvien") ThanhVien thanhvien) {
         Optional<ThanhVien> tb = thanhvienRepository.findById(thanhvien.getMaTV());
         ThanhVien c;
@@ -64,29 +64,29 @@ public class ThanhVienController {
         c.setPassword(thanhvien.getPassword());
         c.setEmail(thanhvien.getEmail());
         thanhvienRepository.save(c);
-        return "redirect:/thanhvien/all";
+        return "redirect:/admin/thanhvien/all";
     }
 
-    @GetMapping(value = {"/thanhvien/delete/{id}"})
+    @GetMapping(value = {"/admin/thanhvien/delete/{id}"})
     public String delete(Model m, @PathVariable("id") int id) {
         Optional<ThanhVien> thanhvienOptional = thanhvienRepository.findById(id);
 
         if (thanhvienOptional.isPresent()) {
             ThanhVien thanhvien = thanhvienOptional.get();
             thanhvienRepository.delete(thanhvien);
-            return "redirect:/thanhvien/all";
+            return "redirect:/admin/thanhvien/all";
         } else {
             // Handle the case where the thietbi with the given id doesn't exist
-            return "redirect:/thanhvien/all";
+            return "redirect:/admin/thanhvien/all";
         }
     }
 
-    @PostMapping("/thanhvien/save")
+    @PostMapping("/admin/thanhvien/save")
     public String save(Model m, @ModelAttribute("thanhvien") ThanhVien thanhvien) {
 
         thanhvienRepository.save(thanhvien);
 
-        return "redirect:/thanhvien/all";
+        return "redirect:/admin/thanhvien/all";
 
     }
 }
