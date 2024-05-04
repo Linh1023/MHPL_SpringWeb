@@ -39,15 +39,24 @@ public class ThongtinSDController {
     
     
     
-    @GetMapping(value = "/qlmuontra/thongtinsd")
+    @GetMapping(value = "/admin/thongtinsd/all")
      public String getThongTinSD(Model m) {
        Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithMaTBNotNull();
+       
+       for (ThongTinSD thongTinSD : list) {
+            thongTinSD.getThanhVien().getHoTen();
+           thongTinSD.getThanhVien().getHoTen();
+        }
+       
         m.addAttribute("list", list);
-        m.addAttribute("templateName", "thongtinsd");
-        return "sample";
+        m.addAttribute("templateName", "admin/thongtinsd/thongtinsd_all");
+        return "admin/sample";
     }
      
-     @PostMapping(value = "/qlmuontra/thongtinsd_add/add")
+
+     
+     
+     @PostMapping(value = "/admin/thongtinsd/add/save")
      public String addThongTinSD( @RequestParam("maTV") int maTV,
                                   @RequestParam("maTB") int maTB) {
         System.out.println("Mã thành viên: " + maTV);
@@ -61,11 +70,11 @@ public class ThongtinSDController {
         thongTinSDRepository.save(ttsd);
         
         
-//        m.addAttribute("templateName", "thongtinsd");
-        return "redirect:/qlmuontra/thongtinsd";
+
+        return "redirect:/admin/thongtinsd/all";
     }
      
-     @PostMapping(value = "/qlmuontra/thongtinsd_edit/edit")
+     @PostMapping(value = "/admin/thongtinsd/edit/save")
      public String editThongTinSD(@RequestParam("maTT") int maTT,
                                   @RequestParam("maTV") int maTV,
                                   @RequestParam("maTB") int maTB,
@@ -97,21 +106,21 @@ public class ThongtinSDController {
         thongTinSDRepository.save(ttsd);
         
         
-//        m.addAttribute("templateName", "thongtinsd");
-        return "redirect:/qlmuontra/thongtinsd";
+
+        return "redirect:/admin/thongtinsd/all";
     }
      
-      @GetMapping(value = {"/qlmuontra/thongtinsd/delete/{maTT}"})
+      @GetMapping(value = {"/admin/thongtinsd/delete/{maTT}"})
      public String deleteThongTinSD(@PathVariable("maTT") int maTT) {
          Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
          ThongTinSD ttsd = thongTinSD.get();
           thongTinSDRepository.delete(ttsd);
-//        m.addAttribute("templateName", "thongtinsd");
-        return "redirect:/qlmuontra/thongtinsd";
+
+        return "redirect:/admin/thongtinsd/all";
      }
      
-     @GetMapping(value = "/qlmuontra/thongtinsd_add")
-     public String ThongTinSDForm(Model m) {
+     @GetMapping("/admin/thongtinsd/add")
+     public String showThongTinSDForm(Model m) {
         Iterable<ThanhVien> listTV = thanhVienRepository.findAll();
         m.addAttribute("listTV", listTV);
         
@@ -133,12 +142,12 @@ public class ThongtinSDController {
         }
 
         m.addAttribute("listTB", listTBKSD);
-        m.addAttribute("templateName", "thongtinsd_add");
-        return "sample";
+        m.addAttribute("templateName", "admin/thongtinsd/thongtinsd_add");
+        return "admin/sample";
     }
      
   
-     @GetMapping(value = {"/qlmuontra/thongtinsd_edit/{maTT}"})
+     @GetMapping(value = {"/admin/thongtinsd/edit/{maTT}"})
      public String setValue(@PathVariable("maTT") int maTT ,Model m) {
                  Iterable<ThanhVien> listTV = thanhVienRepository.findAll();
         m.addAttribute("listTV", listTV);
@@ -169,8 +178,8 @@ public class ThongtinSDController {
      
         
         m.addAttribute("thongTinSD", thongTinSD);
-        m.addAttribute("templateName", "thongtinsd_edit");
-        return "sample";
+        m.addAttribute("templateName", "admin/thongtinsd/thongtinsd_edit");
+        return "admin/sample";
     }
      
      

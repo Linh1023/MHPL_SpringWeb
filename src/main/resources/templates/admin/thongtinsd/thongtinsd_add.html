@@ -1,14 +1,14 @@
-<form action="/qlmuontra/thongtinsd_add/add" method="POST" >
+<form action="/admin/thongtinsd/add/save" method="POST" >
     
 <div style="display: flex; justify-content: center;" >
-    <a type="button" href="/qlmuontra/thongtinsd" class="btn btn-light"><i class="fa-solid fa-arrow-left" style="display: inline-block; font-size: 30px;"></i></a>
+    <a type="button" href="/admin/thongtinsd/all" class="btn btn-light"><i class="fa-solid fa-arrow-left" style="display: inline-block; font-size: 30px;"></i></a>
     <h4 style="margin-top: 6px;" >Mượn thiết bị</h4>
 </div>
 
 <div style="display:flex; align-items: baseline;margin-top: 20px;">
     <p style="font-size: 18px;width: 180px;">Thành viên: </p>
     <select  id="select_thanhvien"  name="maTV" class="form-select select-filter-type" aria-label="Default select example">
-      <option  th:each="list : ${listTV}" th:value="${list.MaTV}" th:text="${list.MaTV} + ' - ' + ${list.hoten} " 
+      <option  th:each="list : ${listTV}" th:value="${list.MaTV}" th:text="${list.MaTV} + ' - ' + ${list.HoTen} " 
               
       ></option>
     </select>

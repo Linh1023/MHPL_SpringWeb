@@ -26,32 +26,32 @@ import lombok.Data;
 public class ThongTinSD {
 
     @Id
-    @Column(name = "MaTT")
+    @Column(name = "matt")
     private int maTT;
 
-    @Column(name = "MaTV")
+    @Column(name = "matv")
     private int maTV;
 
 //    dùng integer tại vì có thể null
-    @Column(name = "MaTB")
+    @Column(name = "matb")
     private Integer maTB;
 
-    @Column(name = "TGVao")
+    @Column(name = "tgvao")
     private Date tGVao;
 
-    @Column(name = "TGMuon")
+    @Column(name = "tgmuon")
     private Date tGMuon;
 
-    @Column(name = "TGTra")
+    @Column(name = "tgtra")
     private Date tGTra;
 
-    @Column(name = "TGDatCho")
+    @Column(name = "tgdatcho")
     private Date tGDatCho;
 
     
     
     @ManyToOne
-    @JoinColumn(name = "MaTV", insertable = false, updatable = false)
+    @JoinColumn(name = "matv", insertable = false, updatable = false)
     private ThanhVien thanhVien;
 
     public int getMaTT() {
@@ -127,7 +127,7 @@ public class ThongTinSD {
     }
 
     @ManyToOne
-    @JoinColumn(name = "MaTB", insertable = false, updatable = false)
+    @JoinColumn(name = "matb", insertable = false, updatable = false)
     private ThietBi thietBi;
 
    

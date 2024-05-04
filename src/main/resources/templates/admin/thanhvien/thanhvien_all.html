@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Thanh Vien</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h3>Danh Sách Thành Viên</h3>
+        <table boder = "1">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Khoa</th>
+                    <th>Major</th>
+                    <th>Phone</th>
+                    <th>PassWord</th>
+                    <th>Email</th>
+                    <th></th>
+            </thead>
+            <tbody>
+                <tr th:each="item, state: ${list}">
+                    <td th:utext = "${state.count}"></td>
+                    <td th:utext = "${item.MaTV}"></td>
+                    <td th:utext = "${item.HoTen}"></td>
+                    <td th:utext = "${item.Khoa}"></td>
+                    <td th:utext = "${item.Nganh}"></td>
+                    <td th:utext = "${item.SDT}"></td>
+                    <td th:utext = "${item.PassWord}"></td>
+                    <td th:utext = "${item.Email}"></td>
+                    <td><a th:href="'/thanhvien/edit/'+ ${item.MaTV}">Edit</a>
+                        <a th:href="'/thanhvien/delete/'+ ${item.MaTV}">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </body>
+    <p><a href="/thanhvien/add">Add Thanh Vien</p>
+</html>

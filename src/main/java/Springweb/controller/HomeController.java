@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping(value = {"/admin/index.html", "/admin/"})
     public String home(Model model) {
-        model.addAttribute("templateName", "home");
-        return "sample"; // Trả về tên của trang HTML trong thư mục static
+        model.addAttribute("templateName", "admin/home.html");
+        return "admin/sample";
     }
 }
