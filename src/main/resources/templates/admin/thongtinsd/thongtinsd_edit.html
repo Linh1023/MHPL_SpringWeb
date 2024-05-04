@@ -1,0 +1,64 @@
+<form action="/admin/thongtinsd/edit/save" method="POST" >
+    <input type="hidden" name="maTT"  th:value="${thongTinSD.maTT}" ></input>
+<div style="display: flex; justify-content: center;" >
+    <a type="button" href="/admin/thongtinsd/all" class="btn btn-light"><i class="fa-solid fa-arrow-left" style="display: inline-block; font-size: 30px;"></i></a>
+    <h4 style="margin-top: 6px;" >Thông tin mượn trả</h4>
+</div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;">
+    <p style="font-size: 18px;width: 180px;">Thành viên: </p>
+    <select  id="select_thanhvien"  name="maTV" class="form-select select-filter-type" aria-label="Default select example">
+      <option  th:each="list : ${listTV}" th:value="${list.MaTV}" th:text="${list.MaTV} + ' - ' + ${list.HoTen} " 
+       th:selected="${list.MaTV == thongTinSD.MaTV}"              
+      ></option>
+    </select>
+</div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;">
+    <p style="font-size: 18px;width: 180px;">Thiết bị: </p>
+     <select  id="select_thietbi" name="maTB" class="form-select select-filter-type" aria-label="Default select example">
+      <option  th:each="list : ${listTB}" th:value="${list.MaTB}" th:text="${list.MaTB} + ' - ' + ${list.TenTB} " 
+               
+      th:selected="${list.MaTB == thongTinSD.MaTB}" 
+      ></option>
+    </select>
+</div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;" >
+    <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Thời gian mượn: </p>
+    <input name="tGMuon"  th:value="${thongTinSD.tGMuon}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+</div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;" >
+    <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Thời gian trả: </p>
+    <input name="tGTra" th:value="${thongTinSD.tGTra}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px;border: 0px;" readonly></input>
+</div>
+    
+    
+
+
+    <div style="display: flex; align-items: baseline;" >
+        <p style="font-size: 18px;width: 160px;">Trạng thái: </p>
+          <div style="margin-left: 0px;margin-top: 20px; " >
+        <div class="form-check form-check-inline">
+           <input  class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="muon"  th:checked="${thongTinSD.tGTra == null}" >
+           <label class="form-check-label" for="inlineRadio1" >Mượn</label>
+         </div>
+         <div class="form-check form-check-inline">
+           <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="datra" th:checked="${thongTinSD.tGTra != null}" >
+           <label class="form-check-label" for="inlineRadio2">Đã trả</label>
+         </div>
+        </div>
+    </div>
+
+
+
+<div style="display: flex; justify-content: center;">
+    <button type="submit" class="btn btn-success" style="float:right; margin-top: 20px; margin-bottom: 20px; ">
+    <i class="fa-solid fa-circle-plus"></i>  Lưu</button>
+</div>
+    
+</form>
+
+
+

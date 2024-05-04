@@ -9,25 +9,25 @@ import lombok.Data;
 public class ThanhVien {
 
     @Id
-    @Column(name = "MaTV")
+    @Column(name = "matv")
     private int MaTV;
 
-    @Column(name = "HoTen")
+    @Column(name = "hoten")
     private String HoTen;
 
-    @Column(name = "Khoa" )
+    @Column(name = "khoa" )
     private String Khoa;
 
-    @Column(name = "Nganh" )
+    @Column(name = "nganh" )
     private String Nganh;
     
-    @Column(name = "SDT" )
+    @Column(name = "sdt" )
     private String Sdt;
     
-    @Column(name = "PassWord" )
+    @Column(name = "password" )
     private String Password;
     
-    @Column(name = "Email" )
+    @Column(name = "email" )
     private String Email;
 
     public int getMaTV() {
