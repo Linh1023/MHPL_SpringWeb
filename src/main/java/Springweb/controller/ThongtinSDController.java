@@ -43,13 +43,17 @@ public class ThongtinSDController {
      public String getThongTinSD(Model m) {
        Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithMaTBNotNull();
        
-       for (ThongTinSD thongTinSD : list) {
-            thongTinSD.getThanhVien().getHoTen();
-           thongTinSD.getThanhVien().getHoTen();
-        }
-       
         m.addAttribute("list", list);
         m.addAttribute("templateName", "admin/thongtinsd/thongtinsd_all");
+        return "admin/sample";
+    }
+     
+     @GetMapping(value = "/admin/thongtinsd/datcho")
+     public String getDatCho(Model m) {
+        Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithTGDatChoIsNotNull();
+    
+        m.addAttribute("list", list);
+        m.addAttribute("templateName", "admin/thongtinsd/thongtinsd_datcho");
         return "admin/sample";
     }
      
@@ -117,6 +121,35 @@ public class ThongtinSDController {
           thongTinSDRepository.delete(ttsd);
 
         return "redirect:/admin/thongtinsd/all";
+     }
+     
+       @GetMapping(value = {"/admin/thongtinsd/xoa/{maTT}"})
+     public String deleteThongTinSDDatCho(@PathVariable("maTT") int maTT) {
+         Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
+         ThongTinSD ttsd = thongTinSD.get();
+          thongTinSDRepository.delete(ttsd);
+
+        return "redirect:/admin/thongtinsd/datcho";
+     }
+     
+      @GetMapping(value = {"/admin/thongtinsd/duyet/{maTT}"})
+     public String duyetThongTinSD(@PathVariable("maTT") int maTT) {
+         Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
+         ThongTinSD ttsd = thongTinSD.get();
+         Date tGMuon = new Date();
+         ttsd.settGMuon(tGMuon);
+         thongTinSDRepository.save(ttsd);
+        return "redirect:/admin/thongtinsd/datcho";
+     }
+     
+      @GetMapping(value = {"/admin/thongtinsd/tuchoi/{maTT}"})
+     public String tuchoiThongTinSD(@PathVariable("maTT") int maTT) {
+         Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
+         ThongTinSD ttsd = thongTinSD.get();
+         Date tGTra = new Date();
+         ttsd.settGTra(tGTra);
+         thongTinSDRepository.save(ttsd);
+        return "redirect:/admin/thongtinsd/datcho";
      }
      
      @GetMapping("/admin/thongtinsd/add")
