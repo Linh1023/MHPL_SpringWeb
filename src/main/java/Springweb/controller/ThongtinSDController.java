@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
@@ -43,19 +44,28 @@ public class ThongtinSDController {
     @Autowired
     private ThietBiService thietbiService;
     
+     @Autowired
+    private HttpServletRequest request;
+    
      @GetMapping(value = {"/datcho/{maTB}"})
      public String datChoUser(@PathVariable("maTB") int maTB, Model m) {
+         int maTV = (int) request.getSession().getAttribute("maTV");
+         String hoTen = (String) request.getSession().getAttribute("hoTen");
+         
          ThietBi thietBi = thietbiService.findById(maTB);
+         
+          m.addAttribute("tk", maTV);
+        m.addAttribute("hoTen", hoTen);
          m.addAttribute("thietBi", thietBi);
          m.addAttribute("templateName", "user_xacnhandatcho");
-         return "admin/sample";
+         return "sample";
      }
      
       @PostMapping(value = "/datcho/save")
      public String datChoUserSave( @RequestParam("maTB") int maTB,
-                                  @RequestParam("maTV") int maTV,
                                   @RequestParam("tGDatCho") String tGDatCho, Model m,
                                   RedirectAttributes redirectAttributes) throws ParseException{
+         int maTV = (int) request.getSession().getAttribute("maTV");
          if (tGDatCho.equals("")) {
              System.out.println("chưa chọn thời gian");
               redirectAttributes.addFlashAttribute("thongBao", "Bạn phải chọn thời gian");
