@@ -9,38 +9,36 @@ import lombok.Data;
 public class ThietBi {
 
     @Id
-    @Column(name = "MaTB")
-    private int MaTB;
+    @Column(name = "matb")
+    private int maTB;
 
-    @Column(name = "TenTB")
-    private String TenTB;
+    @Column(name = "tentb")
+    private String tenTB;
 
-    @Column(name = "MotaTB" )
-    private String MoTaTB;
+    @Column(name = "motatb" )
+    private String moTaTB;
 
     public int getMaTB() {
-        return MaTB;
+        return maTB;
     }
 
-    public void setMaTB(int MaTB) {
-        this.MaTB = MaTB;
+    public void setMaTB(int maTB) {
+        this.maTB = maTB;
     }
 
     public String getTenTB() {
-        return TenTB;
+        return tenTB;
     }
 
-    public void setTenTB(String TenTB) {
-        this.TenTB = TenTB;
+    public void setTenTB(String tenTB) {
+        this.tenTB = tenTB;
     }
 
     public String getMoTaTB() {
-        return MoTaTB;
+        return moTaTB;
     }
 
-    public void setMoTaTB(String MoTaTB) {
-        this.MoTaTB = MoTaTB;
+    public void setMoTaTB(String moTaTB) {
+        this.moTaTB = moTaTB;
     }
-    
-    
 }
