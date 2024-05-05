@@ -28,5 +28,18 @@ public class HomeController {
     public String paswword(Model model) {
         return "password";
     }
+    @GetMapping(value = {"/404","/404/","/404.html"})
+    public String error404(Model model) {
+        return "404";
+    }
+    @GetMapping(value = {"/401","/401/","/401.html"})
+    public String error401(Model model) {
+        return "401";
+    }
+    @GetMapping(value = {"/500","500/","500.html"})
+    public String error500(Model model) {
+        return "500";
+    }
+    
     
 }

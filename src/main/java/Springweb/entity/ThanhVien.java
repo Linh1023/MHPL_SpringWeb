@@ -10,83 +10,79 @@ public class ThanhVien {
 
     @Id
     @Column(name = "matv")
-    private int MaTV;
+    private int maTV;
 
     @Column(name = "hoten")
-    private String HoTen;
+    private String hoTen;
 
     @Column(name = "khoa" )
-    private String Khoa;
+    private String khoa;
 
     @Column(name = "nganh" )
-    private String Nganh;
+    private String nganh;
     
     @Column(name = "sdt" )
-    private String Sdt;
+    private String sdt;
     
     @Column(name = "password" )
-    private String Password;
+    private String password;
     
     @Column(name = "email" )
-    private String Email;
+    private String email;
 
     public int getMaTV() {
-        return MaTV;
+        return maTV;
     }
 
-    public void setMaTV(int MaTV) {
-        this.MaTV = MaTV;
+    public void setMaTV(int maTV) {
+        this.maTV = maTV;
     }
 
     public String getHoTen() {
-        return HoTen;
+        return hoTen;
     }
 
-    public void setHoTen(String HoTen) {
-        this.HoTen = HoTen;
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
     }
 
     public String getKhoa() {
-        return Khoa;
+        return khoa;
     }
 
-    public void setKhoa(String Khoa) {
-        this.Khoa = Khoa;
+    public void setKhoa(String khoa) {
+        this.khoa = khoa;
     }
 
     public String getNganh() {
-        return Nganh;
+        return nganh;
     }
 
-    public void setNganh(String Nganh) {
-        this.Nganh = Nganh;
+    public void setNganh(String nganh) {
+        this.nganh = nganh;
     }
 
     public String getSdt() {
-        return Sdt;
+        return sdt;
     }
 
-    public void setSdt(String Sdt) {
-        this.Sdt = Sdt;
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
-    public void setPassword(String Password) {
-        this.Password = Password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
-    }
-    
-    
-    
-    
+    public void setEmail(String email) {
+        this.email = email;
+    } 
 }
