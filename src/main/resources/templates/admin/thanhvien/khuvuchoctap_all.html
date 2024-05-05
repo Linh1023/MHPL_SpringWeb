@@ -1,0 +1,84 @@
+<style>
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        text-align: left;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
+          }
+    .th {
+          background-color: #ff9800;
+          color: #fff;
+          font-weight: bold;
+          padding: 10px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          border-top: 1px solid #fff;
+          border-bottom: 1px solid #ccc;
+        }
+    .table tr:nth-child(even) td {
+        background-color: #f2f2f2;
+    }   
+    .table tr:hover td {
+        background-color: #ffedcc;
+    }
+    .hi{
+        font-weight: bold;
+        text-align:center;
+        margin:10px;
+        font-size:40px;
+    }
+</style>
+<div class="hi">Danh sách Thông tin ra vào khu vực học tập</div>
+<div class="row justify-content-between">
+    <div class="col-md-6 col-12">
+        <form id="search-form" th:action="@{/admin/thietbi/all}" method="get">
+            <div class="mb-sm-2 row">
+                <div class="col-md-5 col-12">
+                    <select name="category" class="form-control" id="exampleFormControlSelect1">
+                        <option value="1" th:selected="${category == '1'}">Tên Thiết Bị</option>
+                        <option value="2" th:selected="${category == '2'}">Mã Thiết Bị</option>
+                        <option value="3" th:selected="${category == '3'}">Mô Tả Thiết Bị</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="input-group">
+                        <input type="text" name="s" class="form-control border border-secondary" placeholder="Tìm kiếm theo Mã/Họ tên" aria-label="Search" aria-describedby="basic-addon1" th:value="${search}">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-12 col-md-4">
+        <a class="btn btn-success" href="/admin/thanhvien/khuvuchoctap_add">Thêm mới</a>
+    </div>
+</div>
+<table class="table" border="1">
+    <thead>
+        <tr >
+            <th class="th">Mã TT</th>
+            <th class="th">Mã TV</th>
+            <th class="th">Name</th>
+            <th class="th">Khoa</th>
+            <th class="th">TG Vào</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each ="item, state: ${list}">
+            <td class="th" th:utext = "${item.MaTT}"></td>
+            <td class="th" th:utext = "${item.MaTV}"></td>
+            <td class="th" th:utext = "${item.thanhVien.hoTen}"></td>
+            <td class="th" th:utext = "${item.thanhVien.khoa}"></td>
+            <td class="th" th:utext = "${item.tGVao}"></td>
+        </tr>  
+    </tbody>
+</table>
+    
