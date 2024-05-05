@@ -70,12 +70,12 @@ public class ThongtinSDController {
     @GetMapping("/admin/thanhvien/khuvuchoctapsearch")
     public String getAll(@RequestParam(name = "option", required = false) String option,
             @RequestParam(name = "hihi", required = false) String search, Model m) {
-            Iterable<ThongTinSD> list = null;
+        Iterable<ThongTinSD> list = null;
         if (option != null && search != null) {
             list = khuVucHocTapService.searchTTSD(Integer.parseInt(option), search);
             m.addAttribute("option", option);
             m.addAttribute("search", search);
-            
+
         } else {
             // Xử lý khi không có tham số nào được cung cấp
             list = khuVucHocTapService.findAll();
