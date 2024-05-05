@@ -41,8 +41,4 @@ public class ThietBi {
     public void setMoTaTB(String moTaTB) {
         this.moTaTB = moTaTB;
     }
-
-    
-    
-    
 }
