@@ -1,3 +1,4 @@
+
 <style>
     .btn-edit {
       display: none;
@@ -47,5 +48,13 @@
             <a th:if="${item.tGTra != null and item.tGMuon == null}" th:href="'/admin/thongtinsd/xoa/'+ ${item.maTT}" type="button" class="btn btn-danger btn-delete">Xóa</i></a>
           </td>
         </tr>
+      
+        
+        
+        
     </tbody>
+    <div th:if="${thongBao}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <p th:text="${thongBao}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 </table>

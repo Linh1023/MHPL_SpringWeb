@@ -17,4 +17,9 @@ public interface ThongTinSDRepository extends CrudRepository<ThongTinSD, Integer
     @Query("FROM ThongTinSD WHERE tgdatcho IS NOT NULL ")
     Iterable<ThongTinSD> findAllWithTGDatChoIsNotNull();
     
+   @Query("FROM ThongTinSD WHERE MaTB IS NOT NULL AND TGTra IS NULL AND MaTB =?1")
+    Iterable<ThongTinSD> findAllWithTGDatChoTGMuon(int maTB);
+    
+    
+    
 }

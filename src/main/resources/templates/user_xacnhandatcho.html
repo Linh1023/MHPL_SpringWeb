@@ -1,15 +1,39 @@
-<!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<div style="display: flex; justify-content: center;" >
+    <a type="button" href="/" class="btn btn-light"><i class="fa-solid fa-arrow-left" style="display: inline-block; font-size: 30px;"></i></a>
+    <h4 style="margin-top: 6px;" >Đặt chổ thiết bị</h4>
+</div>
+
+<form action="/datcho/save" method="POST">
+    <input type="hidden" value="1123330257" name="maTV" > </input>
+    <div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Mã thiết bị: </p>
+        <input name="maTB"  th:value="${thietBi.MaTB}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+    </div>
+    
+     <div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Tên thiết bị: </p>
+        <input th:value="${thietBi.TenTB}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" disable ></input>
+    </div>
+    
+     <div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Mô tả thiết bị: </p>
+        <input th:value="${thietBi.MoTaTB}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" disable ></input>
+    </div>
+    
+     <div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Ngày đặt chổ: </p>
+           <input th:if="${tGDatCho} != 'null'" th:value="${tGDatCho}" type="datetime-local" name="tGDatCho" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" ></input>
+        <input th:if="${tGDatCho} == 'null'"  type="datetime-local" name="tGDatCho" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" ></input>
+    </div>
+    <div th:if="${thongBao}" class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px" >
+            <p th:text="${thongBao}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    
+    <div style="display: flex; justify-content: center;">
+        <button type="submit" class="btn btn-success" style="float:right; margin-top: 20px; margin-bottom: 20px; ">
+        <i class="fa-solid fa-circle-plus"></i>  Đặt chổ</button>
+    </div>
+   
+</form>
+
