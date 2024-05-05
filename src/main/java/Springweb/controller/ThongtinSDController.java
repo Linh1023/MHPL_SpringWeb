@@ -10,6 +10,8 @@ import Springweb.entity.ThongTinSD;
 import Springweb.repository.ThanhVienRepository;
 import Springweb.repository.ThietBiRepository;
 import Springweb.repository.ThongTinSDRepository;
+import Springweb.service.KhuVucHocTapService;
+import Springweb.service.ThietBiService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,17 +41,14 @@ public class ThongtinSDController {
     @Autowired
     private ThietBiRepository thietBiRepository;
 
+    @Autowired
+    private KhuVucHocTapService khuVucHocTapService;
+
     // cuong
     @GetMapping(value = "/admin/thanhvien/khuvuchoctap")
     public String getAllThongTinSD(Model m) {
-        Iterable<ThongTinSD> list = thongTinSDRepository.findAll();
-        ArrayList<ThongTinSD> list1 = new ArrayList<ThongTinSD>();
-        for (ThongTinSD x : list) {
-            if (x.gettGVao() != null) {
-                list1.add(x);
-            }
-        }
-        m.addAttribute("list", list1);
+        Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithTGVaoNotNull();
+        m.addAttribute("list", list);
         m.addAttribute("templateName", "admin/thanhvien/khuvuchoctap_all");
         return "admin/sample";
     }
@@ -64,19 +63,28 @@ public class ThongtinSDController {
 
     @PostMapping("/admin/thanhvien/khuvuchoctap_save")
     public String save(Model m, @ModelAttribute("thongtinsd") ThongTinSD ttsd) {
-
-        thongTinSDRepository.save(ttsd);
-
+        khuVucHocTapService.saveThietBi(ttsd);
         return "redirect:/admin/thanhvien/khuvuchoctap";
     }
 
-    // timkiem
-    /**
-     * @param category
-     * @param search
-     * @param m
-     * @return
-     */
+    @GetMapping("/admin/thanhvien/khuvuchoctapsearch")
+    public String getAll(@RequestParam(name = "option", required = false) String option,
+            @RequestParam(name = "hihi", required = false) String search, Model m) {
+            Iterable<ThongTinSD> list = null;
+        if (option != null && search != null) {
+            list = khuVucHocTapService.searchTTSD(Integer.parseInt(option), search);
+            m.addAttribute("option", option);
+            m.addAttribute("search", search);
+            
+        } else {
+            // Xử lý khi không có tham số nào được cung cấp
+            list = khuVucHocTapService.findAll();
+        }
+
+        m.addAttribute("list", list);
+        m.addAttribute("templateName", "admin/thanhvien/khuvuchoctap_all");
+        return "admin/sample";
+    }
 
     // duong
     @GetMapping(value = "/admin/thongtinsd/all")
