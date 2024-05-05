@@ -24,6 +24,14 @@ public class ThietBiController {
         m.addAttribute("templateName", "admin/thietbi/thietbi_all");
         return "admin/sample";
     }
+    
+    @GetMapping("/")
+    public String user(Model m) {
+        Iterable<ThietBi> list = thietbiRepository.findAll();
+        m.addAttribute("list", list);
+        m.addAttribute("templateName", "user_datcho");
+        return "admin/sample";
+    }
 
     @GetMapping(value = {"/admin/thietbi/edit/{id}"})
     public String edit(@PathVariable("id") int id, Model m) {
