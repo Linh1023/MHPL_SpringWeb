@@ -2,25 +2,24 @@
     <h4 style="margin-top: 6px;" >Đặt chổ thiết bị</h4>
 </div>
 
-<div class="row justify-content-between" style="margin-top: 20px; margin-bottom: 20px; ">
+<div class="row justify-content-between">
     <div class="col-md-6 col-12">
-        <form id="search-form ">
+        <form id="search-form" th:action="@{/}" method="get">
             <div class="mb-sm-2 row">
                 <div class="col-md-5 col-12">
                     <select name="category" class="form-control" id="exampleFormControlSelect1">
-                        <option>Tên Thiết Bị</option>
-                        <option>Mã Thiết Bị</option>
-                        <option>Mô Tả Thiết Bị</option>
+                        <option value="1" th:selected="${category == '1'}">Tên Thiết Bị</option>
+                        <option value="2" th:selected="${category == '2'}">Mã Thiết Bị</option>
+                        <option value="3" th:selected="${category == '3'}">Mô Tả Thiết Bị</option>
                     </select>
                 </div>
                 <div class="col-12 col-md-7">
                     <div class="input-group">
-                        <input type="text" class="form-control border border-secondary" placeholder="Tìm kiếm theo Mã/Họ tên" aria-label="Search" aria-describedby="basic-addon1">
-                        <button class="btn btn-outline-secondary" name="s" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <input type="text" name="s" class="form-control border border-secondary" placeholder="Tìm kiếm theo Mã/Họ tên" aria-label="Search" aria-describedby="basic-addon1" th:value="${search}">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
             </div>
-
         </form>
     </div>
 </div>
