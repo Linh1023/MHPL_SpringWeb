@@ -22,18 +22,20 @@ window.addEventListener('DOMContentLoaded', event => {
             localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
         });
     }
+    var checkboxAll = document.getElementById('checkbox-all');
+    if (checkboxAll) {
+
+        var checkboxes = document.querySelectorAll('.table tbody input[type="checkbox"]');
+
+        checkboxAll.addEventListener('change', function () {
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = checkboxAll.checked;
+            });
+        });
+    }
 
 });
 
 
-window.onload = function () {
-    var checkboxAll = document.getElementById('checkbox-all');
 
-    var checkboxes = document.querySelectorAll('.table tbody input[type="checkbox"]');
 
-    checkboxAll.addEventListener('change', function () {
-        checkboxes.forEach(function (checkbox) {
-            checkbox.checked = checkboxAll.checked;
-        });
-    });
-};

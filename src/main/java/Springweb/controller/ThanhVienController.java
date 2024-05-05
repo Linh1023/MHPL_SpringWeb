@@ -3,6 +3,7 @@ package Springweb.controller;
 
 import Springweb.entity.ThanhVien;
 import Springweb.repository.ThanhVienRepository;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -33,6 +35,12 @@ public class ThanhVienController {
         m.addAttribute("list", list);
         m.addAttribute("templateName", "admin/thanhvien/thanhvien_all");
         return "admin/sample";
+    }
+    @GetMapping(value = "/admin/thanhvien")
+    @ResponseBody
+    public Iterable getAlltest(Model m) {
+        Iterable<ThanhVien> list = thanhvienRepository.findAll();
+        return list;
     }
 
     @GetMapping(value = {"/admin/thanhvien/edit/{id}"})
