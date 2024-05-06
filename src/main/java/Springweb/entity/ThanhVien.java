@@ -85,4 +85,16 @@ public class ThanhVien {
     public void setEmail(String email) {
         this.email = email;
     } 
+    
+    // @ManyToOne
+    // @JoinColumn(name = "xuly", insertable = false, updatable = false)
+    // private xuly xuly;
+
+    // public xuly getxuly() {
+    //     return xuly;
+    // }
+
+    // public void setxuly(xuly xuly) {
+    //     this.xuly = xuly;
+    // }
 }

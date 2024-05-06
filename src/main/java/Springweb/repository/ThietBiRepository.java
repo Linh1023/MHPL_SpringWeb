@@ -12,4 +12,6 @@ public interface ThietBiRepository extends CrudRepository<ThietBi, Integer> {
     List<ThietBi> findByMoTaTBContaining(String moTaTB);
 
     List<ThietBi> findByTenTBContaining(String tenTB);
+
+    
 }

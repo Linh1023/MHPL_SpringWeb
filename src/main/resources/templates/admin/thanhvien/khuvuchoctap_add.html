@@ -1,0 +1,19 @@
+<div class="mb-4">ThongTinSuDung - Register</div>
+<form th:action="@{/admin/thanhvien/khuvuchoctap_save}" th:object="${thongtinsd}" method="POST">
+
+    <div class="row">
+        <label>Mã Thành Viên</label><input th:field="*{MaTV}" class="form-control"/>
+    </div>
+    <div class="row">
+        <label>Thời gian vào</label><input th:field="*{TGVao}" readonly class="form-control" id="thoiGianVao"/>
+    </div>
+
+    <input type="submit" value="Create" class="btn btn-primary"/>
+
+</form>
+<script>
+
+        var currentTime = new Date();
+        document.getElementById("thoiGianVao").value=currentTime;
+    
+</script>

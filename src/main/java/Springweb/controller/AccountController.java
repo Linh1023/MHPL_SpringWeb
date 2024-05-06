@@ -40,17 +40,18 @@ public class AccountController {
             RedirectAttributes redirectAttributes) {
 
     if ( maTV == 123123 && passWord.equals("123123")) {
-            return "redirect:/admin/";
-        }
-
-        Iterable<ThanhVien> list = thanhVienRepository.inspectAccount(maTV, passWord);
-
-        for (ThanhVien tv : list) {
-            request.getSession().setAttribute("maTV", tv.getMaTV());
-            request.getSession().setAttribute("hoTen", tv.getHoTen());
-
-            return "redirect:/";
-        }
+         return "redirect:/admin/";
+    }     
+         
+    Iterable<ThanhVien> list = thanhVienRepository.inspectAccount(maTV, passWord);
+   
+    for (ThanhVien tv : list) {
+          request.getSession().setAttribute("maTV", tv.getMaTV());
+          request.getSession().setAttribute("hoTen", tv.getHoTen());
+         
+          System.out.println("Đã có 1 thành viên");
+          return "redirect:/";
+    }
 
         redirectAttributes.addFlashAttribute("thongBao", "Sai tài khoản mật khẩu !");
         redirectAttributes.addFlashAttribute("tk", maTV);
