@@ -27,4 +27,9 @@ public interface ThongTinSDRepository extends CrudRepository<ThongTinSD, Integer
     @Query("FROM ThongTinSD WHERE MaTV = :MaTV AND TGVao IS NOT NULL")
     Iterable<ThongTinSD> findByMaTV(int MaTV);
 
+    @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.khoa = :Khoa AND ttsd.tGVao IS NOT NULL")
+    Iterable<ThongTinSD> findByKhoa(String Khoa);
+
+    @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.hoTen = :Name AND ttsd.tGVao IS NOT NULL")
+    Iterable<ThongTinSD> findByName(String Name);
 }

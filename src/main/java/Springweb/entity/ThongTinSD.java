@@ -128,4 +128,16 @@ public class ThongTinSD {
     @JoinColumn(name = "matb", insertable = false, updatable = false)
     private ThietBi thietBi;
 
+    @ManyToOne
+    @JoinColumn(name = "xuly", insertable = false, updatable = false)
+    private xuly xuly;
+
+    public xuly getxuly() {
+        return xuly;
+    }
+
+    public void setxuly(xuly xuly) {
+        this.xuly = xuly;
+    }
+
 }

@@ -32,7 +32,11 @@ public class KhuVucHocTapService {
     public Iterable<ThongTinSD> searchTTSD(int category, String keyword) {
         switch (category) {
             case 1:
-                return ttsdReposity.findByMaTV(Integer.parseInt(keyword));
+                return ttsdReposity.findByMaTV(Integer.parseInt(keyword.trim()));
+            case 2:
+                return ttsdReposity.findByKhoa(keyword.trim());
+            case 3:
+                return ttsdReposity.findByName(keyword.trim());
             default:
                 throw new IllegalArgumentException("Category không hợp lệ: " + category);
         }
