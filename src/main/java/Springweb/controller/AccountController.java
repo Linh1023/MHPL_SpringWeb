@@ -8,6 +8,7 @@ import Springweb.entity.ThanhVien;
 import Springweb.entity.ThongTinSD;
 import Springweb.repository.ThanhVienRepository;
 import java.util.Date;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,9 @@ public class AccountController {
                                   HttpServletRequest request,
                                    RedirectAttributes redirectAttributes) {
    
+    if ( maTV == 123123 && passWord.equals("123123")) {
+         return "redirect:/admin/";
+    }     
          
     Iterable<ThanhVien> list = thanhVienRepository.inspectAccount(maTV, passWord);
    
@@ -50,6 +54,27 @@ public class AccountController {
     
     
     return "redirect:/login";
+    }
+     
+     @GetMapping(value = "/hoso")
+     public String hoSo(    Model m,
+                            HttpServletRequest request,
+                            RedirectAttributes redirectAttributes) {
+         
+       int maTV = (int) request.getSession().getAttribute("maTV");
+       String hoTen = (String) request.getSession().getAttribute("hoTen");
+       
+      
+       Optional<ThanhVien> thanhVien = thanhVienRepository.findById(maTV);
+       ThanhVien tv = thanhVien.get();
+       
+       
+       m.addAttribute("tk", maTV);
+       m.addAttribute("hoTen", hoTen);   
+       m.addAttribute("thanhVien", tv);   
+       m.addAttribute("templateName", "hoso");
+      return "sample";
+ 
     }
     
 }

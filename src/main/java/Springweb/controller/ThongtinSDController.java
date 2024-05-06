@@ -82,7 +82,7 @@ public class ThongtinSDController {
         
              for (ThongTinSD tt : thongTinSD) {
                  if (isSameDate(tGDatChoData, tt.gettGDatCho()) || isSameDate(tGDatChoData, tt.gettGMuon())) {
-                     System.out.println("Trùng ngày mẹ r");
+                  
                      redirectAttributes.addFlashAttribute("tGDatCho", tGDatCho);
                       redirectAttributes.addFlashAttribute("thongBao", "Thời gian này đã có người đặt hoặc đang được mượn !");
                      return "redirect:/datcho/" + maTB;
@@ -95,6 +95,7 @@ public class ThongtinSDController {
              ttsd.setMaTB(maTB);
              ttsd.settGDatCho(tGDatChoData);
              thongTinSDRepository.save(ttsd);
+             redirectAttributes.addFlashAttribute("thongBao", "Đặt chổ thành công !");
               return "redirect:/";
          }
  
