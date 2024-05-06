@@ -22,7 +22,7 @@
                                     <div class="card-body">
                                         <form action="/login/dangnhap" method="POST" >
                                             <div th:if="${thongBao}" class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px" >
-                                                <p th:text="${thongBao}"></p>
+                                                <p class="m-0" th:text="${thongBao}"></p>
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                             </div>
                                             <div class="form-floating mb-3">

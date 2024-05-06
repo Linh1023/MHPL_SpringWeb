@@ -4,10 +4,10 @@
  */
 package Springweb.controller;
 
+import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import Springweb.service.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,14 +59,6 @@ public class HomeController {
         return "admin/sample";
     }
 
-    
-    // @GetMapping("/admin/thietbi/add")
-    // public String register(Model m) {
-    // ThietBi cus = new ThietBi();
-    // m.addAttribute("thietbi", cus);
-    // m.addAttribute("templateName", "admin/thietbi/thietbi_register");
-    // return "admin/sample";
-    // }
 
     @GetMapping(value = { "/404", "/404/", "/404.html" })
     public String error404(Model model) {
