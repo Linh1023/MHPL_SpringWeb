@@ -3,6 +3,7 @@ package Springweb.controller;
 import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ public class ThietBiController {
 
     @Autowired
     private ThietBiService thietbiService;
+    
+      @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/admin/thietbi/all")
     public String getAll(@RequestParam(name = "category", required = false) String category,
@@ -27,9 +31,8 @@ public class ThietBiController {
             list = thietbiService.searchThietBi(Integer.parseInt(category), search);
             m.addAttribute("category", category);
             m.addAttribute("search", search);
-            
+
         } else {
-            // Xử lý khi không có tham số nào được cung cấp
             list = thietbiService.findAll();
         }
 
@@ -37,26 +40,31 @@ public class ThietBiController {
         m.addAttribute("templateName", "admin/thietbi/thietbi_all");
         return "admin/sample";
     }
-    
-   @GetMapping("/")
+
+    @GetMapping("/")
     public String getAllUser(@RequestParam(name = "category", required = false) String category,
             @RequestParam(name = "s", required = false) String search, Model m) {
-        List<ThietBi> list = null;
+        
+          int maTV = (int) request.getSession().getAttribute("maTV");
+          String hoTen = (String) request.getSession().getAttribute("hoTen");
+        
+          List<ThietBi> list = null;
         if (category != null && search != null) {
             list = thietbiService.searchThietBi(Integer.parseInt(category), search);
             m.addAttribute("category", category);
             m.addAttribute("search", search);
-            
+
         } else {
             // Xử lý khi không có tham số nào được cung cấp
             list = thietbiService.findAll();
         }
-
+        m.addAttribute("tk", maTV);
+        m.addAttribute("hoTen", hoTen);
         m.addAttribute("list", list);
         m.addAttribute("templateName", "user_datcho");
-        return "admin/sample";
+        return "sample";
     }
-    
+
 //    @GetMapping("/")
 //    public String user(Model m) {
 //        Iterable<ThietBi> list = thietbiService.findAll();
@@ -64,7 +72,6 @@ public class ThietBiController {
 //        m.addAttribute("templateName", "user_datcho");
 //        return "admin/sample";
 //    }
-
     @GetMapping(value = {"/admin/thietbi/edit/{id}"})
     public String edit(@PathVariable("id") int id, Model m) {
         ThietBi cus = thietbiService.findById(id);
@@ -82,10 +89,11 @@ public class ThietBiController {
     }
 
     @GetMapping(value = "/thietbi/index")
-     @ResponseBody
+    @ResponseBody
     public Iterable getAllList(Model m) {
         return thietbiService.findAll();
     }
+
     @PostMapping("/admin/thietbi/update")
     public String update(Model m, @ModelAttribute("thietbi") ThietBi thietbi) {
         thietbiService.updateThietBi(thietbi);

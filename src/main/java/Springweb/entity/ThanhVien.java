@@ -86,15 +86,15 @@ public class ThanhVien {
         this.email = email;
     } 
     
-    @ManyToOne
-    @JoinColumn(name = "xuly", insertable = false, updatable = false)
-    private xuly xuly;
+    // @ManyToOne
+    // @JoinColumn(name = "xuly", insertable = false, updatable = false)
+    // private xuly xuly;
 
-    public xuly getxuly() {
-        return xuly;
-    }
+    // public xuly getxuly() {
+    //     return xuly;
+    // }
 
-    public void setxuly(xuly xuly) {
-        this.xuly = xuly;
-    }
+    // public void setxuly(xuly xuly) {
+    //     this.xuly = xuly;
+    // }
 }

@@ -32,4 +32,10 @@ public interface ThongTinSDRepository extends CrudRepository<ThongTinSD, Integer
 
     @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.hoTen = :Name AND ttsd.tGVao IS NOT NULL")
     Iterable<ThongTinSD> findByName(String Name);
+    
+   @Query("FROM ThongTinSD WHERE MaTB IS NOT NULL AND TGTra IS NULL AND MaTB =?1")
+    Iterable<ThongTinSD> findAllWithTGDatChoTGMuon(int maTB);
+    
+    
+    
 }

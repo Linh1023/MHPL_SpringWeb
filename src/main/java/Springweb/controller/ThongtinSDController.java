@@ -13,10 +13,14 @@ import Springweb.repository.ThongTinSDRepository;
 import Springweb.service.KhuVucHocTapService;
 import Springweb.service.ThietBiService;
 
+import Springweb.service.ThietBiService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -43,6 +48,14 @@ public class ThongtinSDController {
 
     @Autowired
     private KhuVucHocTapService khuVucHocTapService;
+
+    // duong
+
+    @Autowired
+    private ThietBiService thietbiService;
+    
+    @Autowired
+    private HttpServletRequest request;
 
     // cuong
     @GetMapping(value = "/admin/thanhvien/khuvuchoctap")
@@ -86,7 +99,82 @@ public class ThongtinSDController {
         return "admin/sample";
     }
 
-    // duong
+
+    
+     @GetMapping(value = {"/datcho/{maTB}"})
+     public String datChoUser(@PathVariable("maTB") int maTB, Model m) {
+         int maTV = (int) request.getSession().getAttribute("maTV");
+         String hoTen = (String) request.getSession().getAttribute("hoTen");
+         
+         ThietBi thietBi = thietbiService.findById(maTB);
+         
+          m.addAttribute("tk", maTV);
+        m.addAttribute("hoTen", hoTen);
+         m.addAttribute("thietBi", thietBi);
+         m.addAttribute("templateName", "user_xacnhandatcho");
+         return "sample";
+     }
+     
+      @PostMapping(value = "/datcho/save")
+     public String datChoUserSave( @RequestParam("maTB") int maTB,
+                                  @RequestParam("tGDatCho") String tGDatCho, Model m,
+                                  RedirectAttributes redirectAttributes) throws ParseException{
+         int maTV = (int) request.getSession().getAttribute("maTV");
+         if (tGDatCho.equals("")) {
+             System.out.println("chưa chọn thời gian");
+              redirectAttributes.addFlashAttribute("thongBao", "Bạn phải chọn thời gian");
+               redirectAttributes.addFlashAttribute("tGDatCho", "null");
+               return "redirect:/datcho/" + maTB;
+         } // nếu người dùng đã chọn thời gian
+         else {
+             // kiểm tra xem thời gian đó có người đặt hoặc đang được mượn hay chưa
+             Iterable<ThongTinSD> thongTinSD = thongTinSDRepository.findAllWithTGDatChoTGMuon(maTB);
+             
+             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+             Date tGDatChoData = dateFormat.parse(tGDatCho);
+             
+        
+             for (ThongTinSD tt : thongTinSD) {
+                 if (isSameDate(tGDatChoData, tt.gettGDatCho()) || isSameDate(tGDatChoData, tt.gettGMuon())) {
+                  
+                     redirectAttributes.addFlashAttribute("tGDatCho", tGDatCho);
+                      redirectAttributes.addFlashAttribute("thongBao", "Thời gian này đã có người đặt hoặc đang được mượn !");
+                     return "redirect:/datcho/" + maTB;
+                 }
+              }
+             
+              //thêm thời gian đặt vào database
+            ThongTinSD ttsd = new ThongTinSD();
+             ttsd.setMaTV(maTV);
+             ttsd.setMaTB(maTB);
+             ttsd.settGDatCho(tGDatChoData);
+             thongTinSDRepository.save(ttsd);
+             redirectAttributes.addFlashAttribute("thongBao", "Đặt chổ thành công !");
+              return "redirect:/";
+         }
+ 
+        
+          
+    }
+     
+         // Phương thức kiểm tra xem hai ngày có cùng ngày, tháng và năm hay không
+    public boolean isSameDate(Date date1, Date date2) {
+           if (date1 == null || date2 == null) {
+        return false; // Nếu một trong hai đối tượng Date là null, không thể so sánh được
+    }
+        // Lấy các giá trị ngày, tháng và năm của hai ngày
+        int day1 = date1.getDate();
+        int month1 = date1.getMonth();
+        int year1 = date1.getYear();
+
+        int day2 = date2.getDate();
+        int month2 = date2.getMonth();
+        int year2 = date2.getYear();
+
+        // So sánh các giá trị ngày, tháng và năm
+        return (day1 == day2 && month1 == month2 && year1 == year2);
+    }
+    
     @GetMapping(value = "/admin/thongtinsd/all")
     public String getThongTinSD(Model m) {
         Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithMaTBNotNull();
@@ -99,11 +187,32 @@ public class ThongtinSDController {
     @GetMapping(value = "/admin/thongtinsd/datcho")
     public String getDatCho(Model m) {
         Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithTGDatChoIsNotNull();
-
+        
+        Date currentTime = new Date();
+         for (ThongTinSD thongTinSD : list) {
+             // nếu time hiện tại vượt quá time đặt chổ 1h 
+             if ( thongTinSD.gettGMuon() == null && thongTinSD.gettGTra() == null && (checkTime(thongTinSD.gettGDatCho()) == false)  ) {
+                 thongTinSD.settGTra(currentTime);
+                 thongTinSDRepository.save(thongTinSD);
+             }
+         }
+        
+        
         m.addAttribute("list", list);
         m.addAttribute("templateName", "admin/thongtinsd/thongtinsd_datcho");
         return "admin/sample";
     }
+     
+     public Boolean checkTime ( Date tGDatCho ) {
+        long oneHourInMillis = 1 * 60 * 60 * 1000;
+        Date tGDatChoCong1h = new Date(tGDatCho.getTime() + oneHourInMillis);
+        
+        // Kiểm tra điều kiện
+        Date tGHienTai = new Date();
+        boolean isTimePassed = tGHienTai.before(tGDatChoCong1h);
+        return isTimePassed;
+     }
+     
 
     @PostMapping(value = "/admin/thongtinsd/add/save")
     public String addThongTinSD(@RequestParam("maTV") int maTV,
@@ -170,25 +279,47 @@ public class ThongtinSDController {
         thongTinSDRepository.delete(ttsd);
 
         return "redirect:/admin/thongtinsd/datcho";
-    }
+     }
 
-    @GetMapping(value = { "/admin/thongtinsd/duyet/{maTT}" })
-    public String duyetThongTinSD(@PathVariable("maTT") int maTT) {
-        Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
-        ThongTinSD ttsd = thongTinSD.get();
-        Date tGMuon = new Date();
-        ttsd.settGMuon(tGMuon);
-        thongTinSDRepository.save(ttsd);
-        return "redirect:/admin/thongtinsd/datcho";
-    }
-
-    @GetMapping(value = { "/admin/thongtinsd/tuchoi/{maTT}" })
-    public String tuchoiThongTinSD(@PathVariable("maTT") int maTT) {
-        Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
-        ThongTinSD ttsd = thongTinSD.get();
-        Date tGTra = new Date();
-        ttsd.settGTra(tGTra);
-        thongTinSDRepository.save(ttsd);
+      @GetMapping(value = {"/admin/thongtinsd/duyet/{maTT}"})
+     public String duyetThongTinSD(@PathVariable("maTT") int maTT,  RedirectAttributes redirectAttributes) {
+         Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
+         ThongTinSD ttsd = thongTinSD.get();
+         Date tGHienTai  = new Date();
+         
+         if (tGHienTai.before(ttsd.gettGDatCho())) {
+              redirectAttributes.addFlashAttribute("thongBao", "Chưa đến thời gian cho mượn !");
+             return "redirect:/admin/thongtinsd/datcho";
+         } else {
+             Iterable<ThongTinSD> tt = thongTinSDRepository.findAllWithTGDatChoTGMuon(ttsd.getMaTB());
+          for (ThongTinSD ttsd1 : tt) {
+              if (ttsd1.gettGMuon() == null) {
+                  
+              }  
+              else if (ttsd1.gettGMuon().before(tGHienTai)) {
+                   redirectAttributes.addFlashAttribute("thongBao", "Thiết bị này chưa được trả !");
+                  return "redirect:/admin/thongtinsd/datcho";
+              } 
+          }
+         
+         Date tGMuon = new Date();
+         ttsd.settGMuon(tGMuon);
+         thongTinSDRepository.save(ttsd);
+         return "redirect:/admin/thongtinsd/datcho";
+         }
+         
+         
+         
+         
+     }
+     
+      @GetMapping(value = {"/admin/thongtinsd/tuchoi/{maTT}"})
+     public String tuchoiThongTinSD(@PathVariable("maTT") int maTT) {
+         Optional<ThongTinSD> thongTinSD = thongTinSDRepository.findById(maTT);
+         ThongTinSD ttsd = thongTinSD.get();
+         Date tGTra = new Date();
+         ttsd.settGTra(tGTra);
+         thongTinSDRepository.save(ttsd);
         return "redirect:/admin/thongtinsd/datcho";
     }
 
@@ -200,8 +331,12 @@ public class ThongtinSDController {
         Iterable<ThongTinSD> listTBSD = thongTinSDRepository.findAllWithTGTraIsNull();
 
         ArrayList<Integer> arrMaTB = new ArrayList<>();
+        
+        Date tGHienTai = new Date();
         for (ThongTinSD thongTinSD : listTBSD) {
-            arrMaTB.add(thongTinSD.getMaTB());
+           if (isSameDate(tGHienTai, thongTinSD.gettGDatCho()) || isSameDate(tGHienTai, thongTinSD.gettGMuon())) {
+                arrMaTB.add(thongTinSD.getMaTB());
+           }
         }
 
         Iterable<ThietBi> listTB = thietBiRepository.findAll();
@@ -227,8 +362,13 @@ public class ThongtinSDController {
         Iterable<ThongTinSD> listTBSD = thongTinSDRepository.findAllWithTGTraIsNull();
 
         ArrayList<Integer> arrMaTB = new ArrayList<>();
+        
+        
+               Date tGHienTai = new Date();
         for (ThongTinSD thongTinSD : listTBSD) {
-            arrMaTB.add(thongTinSD.getMaTB());
+           if (isSameDate(tGHienTai, thongTinSD.gettGDatCho()) || isSameDate(tGHienTai, thongTinSD.gettGMuon())) {
+                arrMaTB.add(thongTinSD.getMaTB());
+           }
         }
 
         Optional<ThongTinSD> listTTSD = thongTinSDRepository.findById(maTT);
