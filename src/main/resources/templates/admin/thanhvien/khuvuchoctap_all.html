@@ -39,18 +39,17 @@
 <div class="hi">Danh sách Thông tin ra vào khu vực học tập</div>
 <div class="row justify-content-between">
     <div class="col-md-6 col-12">
-        <form id="search-form" th:action="@{/admin/thietbi/all}" method="get">
+        <form id="search-form" th:action="@{/admin/thanhvien/khuvuchoctapsearch}" method="get">
             <div class="mb-sm-2 row">
                 <div class="col-md-5 col-12">
-                    <select name="category" class="form-control" id="exampleFormControlSelect1">
-                        <option value="1" th:selected="${category == '1'}">Tên Thiết Bị</option>
-                        <option value="2" th:selected="${category == '2'}">Mã Thiết Bị</option>
-                        <option value="3" th:selected="${category == '3'}">Mô Tả Thiết Bị</option>
+                    <select name="option" class="form-control" id="exampleFormControlSelect1">
+                        <option value="1" th:selected="${option == '1'}">Mã Thành Viên</option>
+                      
                     </select>
                 </div>
                 <div class="col-12 col-md-7">
                     <div class="input-group">
-                        <input type="text" name="s" class="form-control border border-secondary" placeholder="Tìm kiếm theo Mã/Họ tên" aria-label="Search" aria-describedby="basic-addon1" th:value="${search}">
+                        <input type="text" name="hihi" class="form-control border border-secondary" placeholder="Tìm kiếm" aria-label="Search" aria-describedby="basic-addon1" th:value="${search}">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
