@@ -16,10 +16,10 @@
 <div style="display: flex; justify-content: center;" >
     <h4>Quản lý mượn trả</h4>
 </div>
-<a href="/admin/thongtinsd/add" type="button" class="btn btn-success" style="float:right; margin-top: 10px; margin-bottom: 10px; ">
+<a href="/admin/thongtinsd/add" type="button" class="btn btn-success" style=" margin-top: 10px; margin-bottom: 10px; ">
 <i class="fa-solid fa-circle-plus"></i> Thêm thông tin</a>
 
-<table class="table table-striped table-hover ">
+<table class="table table-striped table-hover mt-3" id="datatablesSimple">
     <thead>
       <tr>
         <th scope="col">Mã TT</th>
@@ -52,3 +52,18 @@
         </tr>
     </tbody>
 </table>
+  <script>
+    window.addEventListener('DOMContentLoaded', event => {
+    const datatablesSimple = document.getElementById('datatablesSimple');
+    if (datatablesSimple) {
+        new simpleDatatables.DataTable(datatablesSimple, {
+            labels: {
+                perPage: 'mục mỗi trang', // Label cho dropdown chọn số lượng item trên mỗi trang
+                noRows: 'Không có dữ liệu', // Label hiển thị khi không có dữ liệu
+                info: 'Hiển thị {start} đến {end} của {rows} mục' // Label hiển thị thông tin pagination
+            }
+        });
+    }
+});
+</script>
+<script src="/js/simple-datatables.min.js" crossorigin="anonymous"></script>

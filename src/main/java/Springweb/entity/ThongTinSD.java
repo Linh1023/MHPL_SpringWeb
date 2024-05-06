@@ -32,7 +32,7 @@ public class ThongTinSD {
     @Column(name = "matv")
     private int maTV;
 
-//    dùng integer tại vì có thể null
+    // dùng integer tại vì có thể null
     @Column(name = "matb")
     private Integer maTB;
 
@@ -48,8 +48,6 @@ public class ThongTinSD {
     @Column(name = "tgdatcho")
     private Date tGDatCho;
 
-    
-    
     @ManyToOne
     @JoinColumn(name = "matv", insertable = false, updatable = false)
     private ThanhVien thanhVien;
@@ -117,7 +115,7 @@ public class ThongTinSD {
     public void setThietBi(ThietBi thietBi) {
         this.thietBi = thietBi;
     }
-    
+
     public Date gettGDatCho() {
         return tGDatCho;
     }
@@ -130,8 +128,16 @@ public class ThongTinSD {
     @JoinColumn(name = "matb", insertable = false, updatable = false)
     private ThietBi thietBi;
 
-   
+    @ManyToOne
+    @JoinColumn(name = "xuly", insertable = false, updatable = false)
+    private xuly xuly;
 
-  
+    public xuly getxuly() {
+        return xuly;
+    }
+
+    public void setxuly(xuly xuly) {
+        this.xuly = xuly;
+    }
+
 }
-
