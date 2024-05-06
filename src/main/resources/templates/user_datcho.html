@@ -1,7 +1,10 @@
 <div style="display: flex; justify-content: center;" >
     <h4 style="margin-top: 6px;" >Đặt chổ thiết bị</h4>
 </div>
-
+ <div th:if="${thongBao}" class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 20px" >
+            <p th:text="${thongBao}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 <div class="row justify-content-between">
     <div class="col-md-6 col-12">
         <form id="search-form" th:action="@{/}" method="get">
@@ -15,7 +18,7 @@
                 </div>
                 <div class="col-12 col-md-7 mb-2">
                     <div class="input-group">
-                        <input type="text" name="s" class="form-control border border-secondary" placeholder="Tìm kiếm theo Mã/Họ tên" aria-label="Search" aria-describedby="basic-addon1" th:value="${search}">
+                        <input type="text" name="s" class="form-control border border-secondary" placeholder="Tìm kiếm theo Mã/Tên sản phẩm" aria-label="Search" aria-describedby="basic-addon1" th:value="${search}">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
