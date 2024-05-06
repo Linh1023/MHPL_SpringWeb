@@ -30,19 +30,19 @@
 <table  border="1" class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th class="d-md-block d-none">STT</th>
+            <th class="d-md-table-cell d-none">STT</th>
             <th>ID</th>
             <th>Name</th>
-            <th class="d-md-block d-none">Description</th>
+            <th class="d-md-table-cell d-none">Description</th>
             <th>Đặt chổ</th>
         </tr>
     </thead>
     <tbody>
         <tr th:each ="item, state: ${list}">
-            <td  class="d-md-block d-none" th:utext = "${state.count}"></td>
+            <td  class="d-md-table-cell d-none" th:utext = "${state.count}"></td>
             <td th:utext = "${item.MaTB}"></td>
             <td th:utext = "${item.TenTB}"></td>
-            <td  class="d-md-block d-none" th:utext = "${item.MoTaTB}"></td>
+            <td  class="d-md-table-cell d-none" th:utext = "${item.MoTaTB}"></td>
             <td class="row-">
                 <a class="btn btn-success" th:href="'/datcho/'+ ${item.MaTB}">Đặt chổ</a>
         </tr>  

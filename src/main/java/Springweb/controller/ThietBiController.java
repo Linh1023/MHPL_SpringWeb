@@ -19,9 +19,7 @@ public class ThietBiController {
 
     @Autowired
     private ThietBiService thietbiService;
-    
-      @Autowired
-    private HttpServletRequest request;
+
 
     @GetMapping("/admin/thietbi/all")
     public String getAll(@RequestParam(name = "category", required = false) String category,
@@ -41,29 +39,7 @@ public class ThietBiController {
         return "admin/sample";
     }
 
-    @GetMapping("/")
-    public String getAllUser(@RequestParam(name = "category", required = false) String category,
-            @RequestParam(name = "s", required = false) String search, Model m) {
-        
-          int maTV = (int) request.getSession().getAttribute("maTV");
-          String hoTen = (String) request.getSession().getAttribute("hoTen");
-        
-          List<ThietBi> list = null;
-        if (category != null && search != null) {
-            list = thietbiService.searchThietBi(Integer.parseInt(category), search);
-            m.addAttribute("category", category);
-            m.addAttribute("search", search);
-
-        } else {
-            // Xử lý khi không có tham số nào được cung cấp
-            list = thietbiService.findAll();
-        }
-        m.addAttribute("tk", maTV);
-        m.addAttribute("hoTen", hoTen);
-        m.addAttribute("list", list);
-        m.addAttribute("templateName", "user_datcho");
-        return "sample";
-    }
+   
 
 //    @GetMapping("/")
 //    public String user(Model m) {
