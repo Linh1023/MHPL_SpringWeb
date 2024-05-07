@@ -3,7 +3,6 @@ package Springweb.controller;
 import Springweb.entity.ThanhVien;
 import Springweb.repository.ThanhVienRepository;
 import Springweb.service.ThanhVienService;
-import Springweb.service.ThietBiService;
 
 import java.io.IOException;
 import java.io.InputStream;
