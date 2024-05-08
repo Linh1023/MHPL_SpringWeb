@@ -26,31 +26,28 @@
         <th>So Tien</th>
         <th>Ngay Xu Ly</th>
         <th>Trang Thai XL</th>
-        
       </tr>
     </thead>
 
     <tbody>
       <tr th:each="item, state: ${list}">
-          <td></td>
+        <td></td>
         <td th:utext="${item.MaXL}"></td>
         <td th:utext="${item.MaTV}"></td>
         <td th:utext="${item.HinhThucXL}"></td>
         <td th:utext="${item.SoTien}"></td>
         <td th:utext="${item.NgayXL}"></td>
         <td th:utext="${item.TrangThaiXL}"></td>
-      
+
         <td>
-           <a
-            class="btn btn-warning"
-            th:href="'/admin/thanhvien/edit/'+ ${item.MaTV}"
+          <a class="btn btn-warning" th:href="'/admin/xuly/edit/'+ ${item.MaXL}"
             >Edit</a
           >
           <a
             class="btn btn-danger"
             th:href="'/admin/thanhvien/delete/'+ ${item.MaTV}"
             >Delete</a
-          > 
+          >
         </td>
       </tr>
     </tbody>

@@ -1,0 +1,135 @@
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div
+          class="card shadow-2-strong card-registration"
+          style="border-radius: 15px"
+        >
+          <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Xử Lý Vi Phạm</h3>
+            <form
+              id="xuLyAll"
+              th:action="@{/admin/xuly/save}"
+              th:object="${xuly}"
+              method="POST"
+            >
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div data-mdb-input-init class="form-outline">
+                    <input
+                      type="text"
+                      th:field="*{MaXL}"
+                      id="maXuly"
+                      class="form-control form-control-lg"
+                    />
+                    <label class="form-label" for="firstName">Mã Xử Lý</label>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div data-mdb-input-init class="form-outline">
+                    <input
+                      type="text"
+                      th:field="*{MaTV}"
+                      id="maTV"
+                      class="form-control form-control-lg"
+                    />
+                    <a th:href="'/admin/xuly/listthanhvien'">
+                      Chon Thanh Vien
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4 d-flex align-items-center">
+                  <div
+                    data-mdb-input-init
+                    class="form-outline datepicker w-100"
+                  >
+                    <input
+                      th:field="*{HinhThucXL}"
+                      type="text"
+                      class="form-control"
+                      id="birthdayDate"
+                    />
+                    <label for="birthdayDate" class="form-label"
+                      >Hình Thức Xử Lý</label
+                    >
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4 d-flex align-items-center">
+                  <div
+                    data-mdb-input-init
+                    class="form-outline datepicker w-100"
+                  >
+                    <input
+                      th:field="*{NgayXL}"
+                      type="date"
+                      class="form-control form-control-lg"
+                      id="ngayXuLy"
+                    />
+                    <label for="ngayXuLy" class="form-label">Ngày Xử Lý</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
+                  <div data-mdb-input-init class="form-outline">
+                    <input
+                      th:field="*{SoTien}"
+                      type="text"
+                      id="soTien"
+                      class="form-control form-control-lg"
+                    />
+                    <label class="form-label" for="soTien">Số Tiền </label>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4 pb-2">
+                  <div data-mdb-input-init class="form-outline">
+                    <select
+                      th:field="*{TrangThaiXL}"
+                      id="trangthaixl"
+                      class="form-control form-control-lg"
+                    >
+                      <option value="0">Done</option>
+                      <option value="1">Not Done</option>
+
+                      <!-- Add more options as needed -->
+                    </select>
+                    <label class="form-label" for="">Trang Thai Xu Ly</label>
+                  </div>
+                </div>
+              </div>
+
+              <!--                            <div class="row">
+                                <div class="col-12">
+
+                                    <select class="select form-control-lg">
+                                        <option value="1" disabled>Choose option</option>
+                                        <option value="2">Subject 1</option>
+                                        <option value="3">Subject 2</option>
+                                        <option value="4">Subject 3</option>
+                                    </select>
+                                    <label class="form-label select-label">Choose option</label>
+
+                                </div>
+                            </div>-->
+
+              <div class="mt-4 pt-2">
+                <input
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-lg"
+                  type="submit"
+                  value="Submit"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
