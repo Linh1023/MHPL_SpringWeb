@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 <tr th:each="item, state: ${list}">
-                    <td data-sortable="false"><input type="checkbox" name="post[]" th:class="'check-' + ${item.MaTV}"
+                    <td data-sortable="false"><input type="checkbox" name="posttv" th:class="'check-' + ${item.MaTV}"
                             th:value="${item.MaTV}"></td>
                     <td th:utext="${state.count}"></td>
                     <td th:utext="${item.MaTV}"></td>

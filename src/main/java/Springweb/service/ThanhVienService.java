@@ -2,8 +2,11 @@ package Springweb.service;
 
 import Springweb.entity.ThanhVien;
 import Springweb.entity.ThongTinSD;
+import Springweb.entity.XuLy;
 import Springweb.repository.ThanhVienRepository;
 import Springweb.repository.ThongTinSDRepository;
+import Springweb.repository.XuLyViPhamRepository;
+
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,8 @@ public class ThanhVienService {
     private ThanhVienRepository thanhvienRepository;
     @Autowired
     private ThongTinSDRepository thongTinSDRepository;
+    @Autowired
+    private XuLyViPhamRepository xulyVPRepository;
 
     @Autowired
     public ThanhVienService(ThanhVienRepository thanhvienRepository) {
@@ -69,7 +74,8 @@ public class ThanhVienService {
     public boolean deleteThanhVienById(int id) {
         // Kiểm tra xem có bất kỳ bản ghi nào trong thongtinsd có MaTB bằng id hay không
         List<ThongTinSD> thongTinSDList = thongTinSDRepository.findByMaTBEquals(id);
-        if (!thongTinSDList.isEmpty()) {
+        List<XuLy> xuly = xulyVPRepository.findByMaTVEquals(id);
+        if (!thongTinSDList.isEmpty() && !xuly.isEmpty()) {
             return false;
         } else {
             thanhvienRepository.deleteById(id);

@@ -43,13 +43,13 @@ public class ThanhVienController {
     private ThanhVienService thanhvienService;
 
     @PostMapping("/admin/thanhvien/dels")
-    public String funcTBDels(
+    public String funcTVDels(
             Model m,
-            @RequestParam(name = "posts", required = false) List<String> posts,
+            @RequestParam(name = "posttv", required = false) List<String> posttv,
             RedirectAttributes redirectAttributes) {
         List<String> listnot = new ArrayList<>();
-        if (posts != null) {
-            for (String post : posts) {
+        if (posttv != null) {
+            for (String post : posttv) {
                 if (thanhvienService.deleteThanhVienById(Integer.parseInt(post))) {
                 } else {
                     listnot.add(post);
@@ -119,18 +119,16 @@ public class ThanhVienController {
         return "redirect:/admin/thanhvien/all";
     }
 
-    @GetMapping(value = { "/admin/thanhvien/delete/{id}" })
-    public String delete(Model m, @PathVariable("id") int id) {
-        Optional<ThanhVien> thanhvienOptional = thanhvienRepository.findById(id);
-
-        if (thanhvienOptional.isPresent()) {
-            ThanhVien thanhvien = thanhvienOptional.get();
-            thanhvienRepository.delete(thanhvien);
-            return "redirect:/admin/thanhvien/all";
+    @GetMapping("/admin/thanhvien/delete/{id}")
+    public String delete(Model m,
+            @PathVariable("id") int id,
+            RedirectAttributes redirectAttributes) {
+        if (thanhvienService.deleteThanhVienById(id)) {
+            redirectAttributes.addFlashAttribute("thongBao", "Thành viên đã bị xóa");
         } else {
-            // Handle the case where the thietbi with the given id doesn't exist
-            return "redirect:/admin/thanhvien/all";
+            redirectAttributes.addFlashAttribute("thongBao", "Thành viên đang được sử dụng không thể xóa");
         }
+        return "redirect:/admin/thanhvien/all";
     }
 
     @PostMapping("/admin/thanhvien/save")
