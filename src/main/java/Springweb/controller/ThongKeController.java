@@ -9,13 +9,17 @@ import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
 import Springweb.repository.ThongTinSDRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -30,47 +34,107 @@ public class ThongKeController {
     private ThongTinSDRepository thongTinSDRepository;
 
     @GetMapping("/admin/thongke/thietbi_dm")
-    private String CreateDataChartTB_DM(Model m) {
+    private String CreateDataChartTB_DM(Model m,
+            @RequestParam(name = "datebegin", required = false) String dateBeginString,
+            @RequestParam(name = "dateend", required = false) String dateEndString
+    ) throws ParseException {
+
         List<ThongTinSD> list = (List<ThongTinSD>) thongTinSDRepository.findAll();
         List<ThongTinSD> listNew = new ArrayList<>();
-        for (ThongTinSD ttsd : list) {
-            if (ttsd.gettGMuon()!= null && ttsd.gettGTra() == null) {
+
+        if (dateEndString != null && dateBeginString != null) {
+            if (dateEndString != "" && dateBeginString != "") {
+
+                //Format thời gian
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+                Date dateBegin = outputFormat.parse(outputFormat.format(inputFormat.parse(dateBeginString)));
+                Date dateEnd = outputFormat.parse(outputFormat.format(inputFormat.parse(dateEndString)));
+
+                for (ThongTinSD ttsd : list) {
+                    Date tgm = ttsd.gettGMuon();
+                    if (tgm != null) {
+                        if (tgm.compareTo(dateBegin) > 0 && tgm.compareTo(dateEnd) < 0) {
+                            listNew.add(ttsd);
+                        }
+                    }
+                }
+            }
+        } else {
+            for (ThongTinSD ttsd : list) {
                 listNew.add(ttsd);
             }
         }
+
         //lấy Dữ Liệu
         List<Integer> maTBs = new ArrayList<>();
         // Tạo list ma
         for (ThongTinSD ttsd : listNew) {
-            maTBs.add(ttsd.getMaTB());
+            if (ttsd.getMaTB() != null) {
+                maTBs.add(ttsd.getMaTB());
+            }
         }
         //tạo list số lượng
         List<Integer> counts = calculateDeviceCounts(maTBs);
         m.addAttribute("dataChart", CreateChartResponseTB(counts));
         m.addAttribute("templateName", "admin/thongke/chart");
+        m.addAttribute("datebegin", dateBeginString);
+        m.addAttribute("dateend", dateEndString);
+        m.addAttribute("showform", true);
         return "admin/sample";
     }
+
     @GetMapping("/admin/thongke/thietbi_dam")
-    private String CreateDataChartTB_DaM(Model m) {
+    private String CreateDataChartTB_DaM(Model m, @RequestParam(name = "datebegin", required = false) String dateBeginString,
+            @RequestParam(name = "dateend", required = false) String dateEndString
+    ) throws ParseException {
         List<ThongTinSD> list = (List<ThongTinSD>) thongTinSDRepository.findAll();
         List<ThongTinSD> listNew = new ArrayList<>();
-        for (ThongTinSD ttsd : list) {
-            if (ttsd.gettGMuon() != null) {
-                listNew.add(ttsd);
+
+        if (dateEndString != null && dateBeginString != null) {
+            if (dateEndString != "" && dateBeginString != "") {
+
+                //Format thời gian
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+                Date dateBegin = outputFormat.parse(outputFormat.format(inputFormat.parse(dateBeginString)));
+                Date dateEnd = outputFormat.parse(outputFormat.format(inputFormat.parse(dateEndString)));
+
+                for (ThongTinSD ttsd : list) {
+                    Date tgm = ttsd.gettGMuon();
+                    if (tgm != null) {
+                        if (tgm.compareTo(dateBegin) > 0 && tgm.compareTo(dateEnd) < 0) {
+                            listNew.add(ttsd);
+                        }
+                    }
+                }
+            }
+        } else {
+            for (ThongTinSD ttsd : list) {
+                if (ttsd.gettGMuon() != null) {
+                    listNew.add(ttsd);
+                }
             }
         }
         List<Integer> maTBs = new ArrayList<>();
         // Tạo list ma
         for (ThongTinSD ttsd : listNew) {
-            maTBs.add(ttsd.getMaTB());
+            if (ttsd.getMaTB() != null) {
+                maTBs.add(ttsd.getMaTB());
+            }
         }
         //tạo list số lượng
         List<Integer> counts = calculateDeviceCounts(maTBs);
         m.addAttribute("dataChart", CreateChartResponseTB(counts));
         m.addAttribute("templateName", "admin/thongke/chart");
+        m.addAttribute("datebegin", dateBeginString);
+        m.addAttribute("dateend", dateEndString);
+        m.addAttribute("showform", true);
         return "admin/sample";
     }
-    
+
     @GetMapping("/admin/thongke/thietbi")
     private String CreateDataChartTBAll(Model m) {
         //lấy Dữ Liệu
@@ -84,6 +148,7 @@ public class ThongKeController {
         List<Integer> counts = calculateDeviceCounts(maTBs);
         m.addAttribute("dataChart", CreateChartResponseTB(counts));
         m.addAttribute("templateName", "admin/thongke/chart");
+        m.addAttribute("showform", false);
         return "admin/sample";
     }
 

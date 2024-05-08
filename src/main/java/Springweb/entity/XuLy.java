@@ -13,9 +13,8 @@ import lombok.Data;
 
 /**
  *
- * @author dothetung
+ * @author dothetung 
  */
-
 
 @Entity
 @Data
