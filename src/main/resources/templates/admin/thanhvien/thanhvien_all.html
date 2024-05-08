@@ -1,6 +1,6 @@
 <h3>Quản Lý Thành Viên</h3>
 <div class="col-12 col-md-4">
-    <button type="button" class="btn btn-danger" style="margin-right: 10px;" data-id="12">Xóa theo khóa</button>
+    <!-- <button type="button" class="btn btn-danger" style="margin-right: 10px;" data-id="12">Xóa theo khóa</button> -->
     <a class="btn btn-success" href="/admin/thanhvien/add">Thêm mới</a>
 </div>
 
@@ -23,8 +23,7 @@
             </thead>
             <tbody>
                 <tr th:each="item, state: ${list}">
-                    <td data-sortable="false"><input type="checkbox" name="posttv" th:class="'check-' + ${item.MaTV}"
-                            th:value="${item.MaTV}"></td>
+                    <td data-sortable="false"><input type="checkbox" name="posttv" th:class="'check-' + ${item.MaTV}" th:value="${item.MaTV}"></td>
                     <td th:utext="${state.count}"></td>
                     <td th:utext="${item.MaTV}"></td>
                     <td th:utext="${item.HoTen}"></td>
