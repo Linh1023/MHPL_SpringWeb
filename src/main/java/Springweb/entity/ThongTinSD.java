@@ -130,13 +130,13 @@ public class ThongTinSD {
 
     @ManyToOne
     @JoinColumn(name = "xuly", insertable = false, updatable = false)
-    private xuly xuly;
+    private XuLy xuly;
 
-    public xuly getxuly() {
+    public XuLy getxuly() {
         return xuly;
     }
 
-    public void setxuly(xuly xuly) {
+    public void setxuly(XuLy xuly) {
         this.xuly = xuly;
     }
 
