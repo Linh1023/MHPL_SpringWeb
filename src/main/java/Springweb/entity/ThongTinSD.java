@@ -108,13 +108,13 @@ public class ThongTinSD {
         this.thanhVien = thanhVien;
     }
 
-    public ThietBi getThietBi() {
-        return thietBi;
-    }
-
-    public void setThietBi(ThietBi thietBi) {
-        this.thietBi = thietBi;
-    }
+//    public ThietBi getThietBi() {
+//        return thietBi;
+//    }
+//
+//    public void setThietBi(ThietBi thietBi) {
+//        this.thietBi = thietBi;
+//    }
 
     public Date gettGDatCho() {
         return tGDatCho;
@@ -123,6 +123,7 @@ public class ThongTinSD {
     public void settGDatCho(Date tGDatCho) {
         this.tGDatCho = tGDatCho;
     }
+
 
     @ManyToOne
     @JoinColumn(name = "matb", insertable = false, updatable = false)
@@ -139,5 +140,6 @@ public class ThongTinSD {
     public void setxuly(XuLy xuly) {
         this.xuly = xuly;
     }
+
 
 }
