@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -51,6 +53,18 @@ public class xuLyViPhamController {
     return "admin/sample";
   }
 
+   @GetMapping("/admin/xuly/add2/{id}")
+  public String LIST_PICK(Model m,@PathVariable("id") int id) {
+      
+     Optional<ThanhVien> cus = thanhvienRepository.findById(id);
+     ThanhVien tv = cus.get();
+      XuLy xl = new XuLy();
+      xl.setMaTV(tv.getMaTV());
+    m.addAttribute("xuly", xl);
+    m.addAttribute("templateName", "admin/xuly/xuly_register");
+    return "admin/sample";
+  }
+  
   @GetMapping("/admin/xuly/listthanhvien")
   public String list_thanh_vien(Model m) {
     // ThanhVien tv = new ThanhVien();
@@ -58,6 +72,7 @@ public class xuLyViPhamController {
     m.addAttribute("list", tv);
     return "admin/xuly/luaThanhVien";
   }
+  
 
   @GetMapping(value = { "/admin/xuly/edit/{id}" })
   public String edit(@PathVariable("id") int id, Model m) {
@@ -86,8 +101,34 @@ public class xuLyViPhamController {
 
   @PostMapping("/admin/xuly/save")
   public String save(Model m, @ModelAttribute("xuly") XuLy xu_ly) {
-    xulyRepository.save(xu_ly);
+    Optional<XuLy> xl = xulyRepository.findById(xu_ly.getMaXL());
+    if (!xl.isPresent()) {
+      xulyRepository.save(xu_ly);
+    } else {
+      String errorMessage = "Mã Xử Lý đã tồn tại trong hệ thống.";
+    }
 
     return "redirect:/admin/xuly/all";
   }
+
+  @GetMapping(value = { "/admin/xuly/delete/{id}" })
+  public String delete(Model m, @PathVariable("id") int id) {
+    Optional<XuLy> XuLyOptional = xulyRepository.findById(id);
+
+    if (XuLyOptional.isPresent()) {
+      XuLy xuly = XuLyOptional.get();
+      xulyRepository.delete(xuly);
+      return "redirect:/admin/xuly/all";
+    } else {
+      // Handle the case where the thietbi with the given id doesn't exist
+      return "redirect:/admin/xuly/all";
+    }
+  }
+ 
+  
+  
+  
 }
+
+
+

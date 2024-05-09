@@ -37,7 +37,7 @@
         <td th:utext="${item.Password}"></td>
         <td th:utext="${item.Email}"></td>
         <td>
-          <button data-matv="{{ ${item.MaTV} }}">Chon</button>
+          <a class="btn btn-warning" th:href="'/admin/xuly/add2/'+ ${item.MaTV}">Chon</a>
         </td>
       </tr>
     </tbody>
