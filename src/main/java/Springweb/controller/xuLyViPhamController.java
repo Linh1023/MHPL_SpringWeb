@@ -1,8 +1,12 @@
 package Springweb.controller;
 
+
 import Springweb.entity.ThanhVien;
 import Springweb.entity.XuLy;
 import Springweb.repository.ThanhVienRepository;
+
+
+
 import Springweb.repository.XuLyViPhamRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,7 @@ public class xuLyViPhamController {
 
   private ThanhVienRepository thanhvienRepository;
 
+
   @Autowired
   public void YourController(ThanhVienRepository thanhvienRepository) {
     this.thanhvienRepository = thanhvienRepository;
@@ -40,6 +45,7 @@ public class xuLyViPhamController {
   @GetMapping(value = "/admin/xuly/all")
   public String getAll(Model m) {
     Iterable<XuLy> list = xulyRepository.findAll();
+
     m.addAttribute("list", list);
     m.addAttribute("templateName", "admin/xuly/xuly_all");
     return "admin/sample";

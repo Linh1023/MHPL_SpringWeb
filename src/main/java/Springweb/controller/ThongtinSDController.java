@@ -13,16 +13,13 @@ import Springweb.repository.ThongTinSDRepository;
 import Springweb.service.KhuVucHocTapService;
 import Springweb.service.ThietBiService;
 
-import Springweb.service.ThietBiService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -7,8 +7,8 @@
       display: none;
     }
   
-    .tr-body:hover .btn-edit,
-    .tr-body:hover .btn-delete {
+    tr:hover .btn-edit,
+    tr:hover .btn-delete {
       display: inline;
     }
   </style>
@@ -29,8 +29,8 @@
         <th scope="col">Tên thiết bị</th>
         <th scope="col">Thời gian mượn</th>
         <th scope="col">Thời gian trả</th>
-        <th scope="col">Trạng thái</th>
-        <th scope="col" style="width:214.087px; ">Hành động</th>
+        <th scope="col" >Trạng thái</th>
+        <th scope="col" data-sortable="false">Hành động</th>
       </tr>
     </thead>
     <tbody class="table-group-divider ">
@@ -45,7 +45,7 @@
           <td th:if="${item.tGTra != null}" style="background-color: #198754;  border-radius: 5px;color: white;" > Đã trả </td>
           <td th:if="${item.tGTra == null}" style="background-color: #ffc107; border-radius: 5px;"  > Đang mượn</td>
           
-          <td>
+          <td data-sortable="false">
             <a th:href="'/admin/thongtinsd/edit/'+ ${item.maTT}" type="submit" class="btn btn-warning btn-edit" ><i class="fa-solid fa-pen-to-square"></i></a>
             <a  th:href="'/admin/thongtinsd/delete/'+ ${item.maTT}" type="button" class="btn btn-danger btn-delete"><i class="fa-solid fa-trash"></i></a>
           </td>

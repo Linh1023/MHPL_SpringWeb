@@ -1,0 +1,37 @@
+<form th:if="${showform}" action"" method="get">
+    <input th:if="${datebegin}" th:value="${datebegin}" type="date" name="datebegin">
+    <input th:unless="${datebegin}"  type="date" name="datebegin">
+    <input th:if="${dateend}" th:value="${dateend}" type="date" id="birthday" name="dateend">
+    <input th:unless="${dateend}"  type="date" id="birthday" name="dateend">
+  <input type="submit" value="Lọc">
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #wrappermyChart {
+            width:100%;
+            height:500px;
+        }
+    </style>
+        <div id="wrappermyChart">
+            <canvas id="myChart" ></canvas>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script th:inline="javascript">
+            var data = /*[[${dataChart}]]*/ [];
+            var options = {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                }
+            };
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options
+            });
+        </script>
