@@ -101,7 +101,6 @@ public class ThongKeController {
 
                 Date dateBegin = outputFormat.parse(outputFormat.format(inputFormat.parse(dateBeginString)));
                 Date dateEnd = outputFormat.parse(outputFormat.format(inputFormat.parse(dateEndString)));
-
                 for (ThongTinSD ttsd : list) {
                     Date tgm = ttsd.gettGMuon();
                     if (tgm != null) {
@@ -149,6 +148,56 @@ public class ThongKeController {
         m.addAttribute("dataChart", CreateChartResponseTB(counts));
         m.addAttribute("templateName", "admin/thongke/chart");
         m.addAttribute("showform", false);
+        return "admin/sample";
+    }
+
+    @GetMapping("/admin/thongke/thanhvien")
+    private String CreateDataChartTV(Model m,
+            @RequestParam(name = "datebegin", required = false) String dateBeginString,
+            @RequestParam(name = "dateend", required = false) String dateEndString) throws ParseException {
+        List<Object[]> thanhVienTheoTG = null;
+        if (dateEndString != null && dateBeginString != null && dateEndString != "" && dateBeginString != "") {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            thanhVienTheoTG = thongTinSDRepository.countThanhVienTheoThoiGianLoc(inputFormat.parse(dateBeginString), inputFormat.parse(dateEndString));
+        } else {
+            thanhVienTheoTG = thongTinSDRepository.countThanhVienTheoThoiGian();
+        }
+        List<Integer> counts = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+        for (Object[] tt : thanhVienTheoTG) {
+            Long sl = (Long) tt[0];
+            counts.add(sl.intValue());
+            Date date = (Date) tt[1];
+            dates.add(date.toString());
+        }
+
+        List<Integer> counts1 = new ArrayList<>();
+        List<String> labels1 = new ArrayList<>();
+        List<Object[]> thanhVienTheoKhoa = thongTinSDRepository.countThanhVienTheoKhoa();
+        for (Object[] tt : thanhVienTheoKhoa) {
+            Long sl = (Long) tt[0];
+            String label = (String) tt[1];
+            counts1.add(sl.intValue());
+            labels1.add(label);
+
+        }
+
+        List<Integer> counts2 = new ArrayList<>();
+        List<String> labels2 = new ArrayList<>();
+        List<Object[]> thanhVienTheoNganh = thongTinSDRepository.countThanhVienTheoNganh();
+        for (Object[] tt : thanhVienTheoNganh) {
+            Long sl = (Long) tt[0];
+            String label = (String) tt[1];
+            counts2.add(sl.intValue());
+            labels2.add(label);
+        }
+
+        m.addAttribute("templateName", "admin/thongke/charttv");
+        m.addAttribute("dataChart", createChartResponseLabels(counts, dates));
+        m.addAttribute("dataChart1", createChartResponsePie(counts1, labels1));
+        m.addAttribute("dataChart2", createChartResponsePie(counts2, labels2));
+        m.addAttribute("showform", true);
+
         return "admin/sample";
     }
 
@@ -214,5 +263,50 @@ public class ThongKeController {
         chartResponse.datasets = List.of(dataSet);
 
         return chartResponse;
+    }
+
+    public ChartResponse createChartResponseLabels(List<Integer> counts, List<String> labels) {
+        ChartResponse chartResponse = new ChartResponse();
+        chartResponse.labels = labels;
+        ChartResponse.DataSet dataSet = new ChartResponse.DataSet();
+        dataSet.data = counts;
+        chartResponse.datasets = List.of(dataSet);
+        List<String> colorsBG = new ArrayList<>();
+        List<String> colorsBD = new ArrayList<>();
+
+        for (int i = 0; i < counts.size(); i++) {
+            int color1 = (int) Math.floor(Math.random() * 256);
+            int color2 = (int) Math.floor(Math.random() * 256);
+            int color3 = (int) Math.floor(Math.random() * 256);
+            colorsBG.add("rgba(" + color1 + "," + color2 + "," + color3 + ",0.2)");
+            colorsBD.add("rgba(" + color1 + "," + color2 + "," + color3 + ",1)");
+        }
+        System.out.println(colorsBD);
+        dataSet.backgroundColor = colorsBG;
+        dataSet.borderColor = colorsBD;
+        dataSet.borderWidth = 1;
+
+        dataSet.label = "Số lượng thành viên";
+        return chartResponse;
+    }
+
+    public ChartResponse createChartResponsePie(List<Integer> counts, List<String> labels) {
+        ChartResponse chartResponse = new ChartResponse();
+        chartResponse.labels = labels;
+        ChartResponse.DataSet dataSet = new ChartResponse.DataSet();
+        dataSet.data = counts;
+        chartResponse.datasets = List.of(dataSet);
+        List<String> colorsBG = new ArrayList<>();
+        for (int i = 0; i < counts.size(); i++) {
+            int color1 = (int) Math.floor(Math.random() * 256);
+            int color2 = (int) Math.floor(Math.random() * 256);
+            int color3 = (int) Math.floor(Math.random() * 256);
+            colorsBG.add("rgb(" + color1 + "," + color2 + "," + color3 + ")");
+        }
+//        dataSet.backgroundColor = colorsBG;
+        dataSet.hoverOffset = 4;
+        dataSet.label = "Số lượng thành viên";
+        return chartResponse;
+
     }
 }

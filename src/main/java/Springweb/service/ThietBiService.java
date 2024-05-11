@@ -54,19 +54,31 @@ public class ThietBiService {
         }
     }
 
-
-  @Autowired
-  public ThietBiService(ThietBiRepository thietBiRepository) {
-    this.thietBiRepository = thietBiRepository;
-  }
-
-  public ThietBi findById(Integer id) {
-    Optional<ThietBi> thietBiOptional = thietBiRepository.findById(id);
-    if (thietBiOptional.isPresent()) {
-      return thietBiOptional.get();
-    } else {
-      throw new RuntimeException("Không tìm thấy ThietBi với ID: " + id);
+ public List<ThietBi> findAll() {
+        return (List<ThietBi>) thietBiRepository.findAll();
     }
+ 
+ 
+    public void updateThietBi(ThietBi thietbi) {
+        ThietBi existingThietBi = findById(thietbi.getMaTB());
+        existingThietBi.setTenTB(thietbi.getTenTB());
+        existingThietBi.setMoTaTB(thietbi.getMoTaTB());
+        thietBiRepository.save(existingThietBi);
+    }
+
+//  @Autowired
+//  public ThietBiService(ThietBiRepository thietBiRepository) {
+//    this.thietBiRepository = thietBiRepository;
+//  }
+
+//  public ThietBi findById(Integer id) {
+//    Optional<ThietBi> thietBiOptional = thietBiRepository.findById(id);
+//    if (thietBiOptional.isPresent()) {
+//      return thietBiOptional.get();
+//    } else {
+//      throw new RuntimeException("Không tìm thấy ThietBi với ID: " + id);
+//    }
+//  }
 
   
 
