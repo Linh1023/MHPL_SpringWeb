@@ -1,8 +1,8 @@
-
 package Springweb.repository;
 
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
+import java.util.Date;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ThongTinSDRepository extends CrudRepository<ThongTinSD, Integer> {
+
     @Query("FROM ThongTinSD WHERE MaTB IS NOT NULL AND TGMuon IS NOT NULL")
     Iterable<ThongTinSD> findAllWithMaTBNotNull();
     
@@ -38,10 +39,23 @@ public interface ThongTinSDRepository extends CrudRepository<ThongTinSD, Integer
 
     @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.hoTen = :Name AND ttsd.tGVao IS NOT NULL")
     Iterable<ThongTinSD> findByName(String Name);
-    
-   @Query("FROM ThongTinSD WHERE MaTB IS NOT NULL AND TGTra IS NULL AND MaTB =?1")
+
+    @Query("FROM ThongTinSD WHERE MaTB IS NOT NULL AND TGTra IS NULL AND MaTB =?1")
     Iterable<ThongTinSD> findAllWithTGDatChoTGMuon(int maTB);
+
+    public List<ThongTinSD> findByMaTVEquals(int id);
+
+    public List<ThongTinSD> findByMaTBEquals(int id);
+
+    @Query("SELECT COUNT(DISTINCT e.maTV), DATE(e.tGVao) FROM ThongTinSD e WHERE e.tGVao IS NOT NULL GROUP BY DATE(e.tGVao)")
+    List<Object[]> countThanhVienTheoThoiGian();
+
+    @Query("SELECT COUNT(DISTINCT e.maTV), DATE(e.tGVao) FROM ThongTinSD e WHERE e.tGVao BETWEEN :start AND :end GROUP BY DATE(e.tGVao)")
+    List<Object[]> countThanhVienTheoThoiGianLoc(Date start, Date end);
+
+    @Query("SELECT COUNT(DISTINCT e.maTV), t.khoa  FROM ThongTinSD e JOIN ThanhVien t ON e.maTV = t.maTV WHERE e.tGVao IS NOT NULL GROUP BY t.khoa")
+    List<Object[]> countThanhVienTheoKhoa();
     
-    
-    
+    @Query("SELECT COUNT(DISTINCT e.maTV), t.nganh  FROM ThongTinSD e JOIN ThanhVien t ON e.maTV = t.maTV WHERE e.tGVao IS NOT NULL GROUP BY t.nganh")
+    List<Object[]> countThanhVienTheoNganh();
 }

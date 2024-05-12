@@ -1,15 +1,36 @@
-<!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<div>Customer - Edit</div>
+<form th:action="@{/admin/thanhvien/update}" th:object="${thanhvien}" method="POST" onsubmit="return validateForm_user()">
+
+
+    <div class="row">
+        <label>Mã Thành Viên</label><input type="number" id="maTV" th:field="*{MaTV}" class="form-control" />
+    </div>
+
+    <div class="row">
+        <label>Tên Thành Viên</label><input type="text" id="user_name" th:field="*{HoTen}" class="form-control" />
+    </div>
+
+    <div class="row">
+        <label>Khoa</label><input type="text" id="user_address" th:field="*{Khoa}" class="form-control" />
+    </div>
+
+    <div class="row">
+        <label>Ngành</label><input type="text" id="nganh" th:field="*{Nganh}" class="form-control" />
+    </div>
+
+    <div class="row">
+        <label>Số Điện Thoại</label><input type="text" id="user_phone" th:field="*{Sdt}" class="form-control" />
+    </div>
+
+    <div class="row">
+        <label>PassWord</label><input type="text" id="password" th:field="*{Password}" class="form-control" />
+    </div>
+
+    <div class="row">
+        <label>Email</label><input type="text" id="email" th:field="*{Email}" class="form-control" />
+    </div>
+
+    <input type="submit" value="Update" class="btn btn-success mt-2"/>
+    <button type="reset" class="btn btn-warning mt-2">Khôi Phục</button>
+    <a href="/admin/thanhvien/all" class="btn btn-primary mt-2">Trở Về</a>
+</form>
