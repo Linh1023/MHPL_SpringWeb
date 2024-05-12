@@ -3,17 +3,137 @@
 </div>
 <div style="display:flex; align-items: baseline;margin-top: 20px;" >
         <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Mã thành viên: </p>
-        <input name="maTB"  th:value="${thanhVien.MaTV}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
- </div>
-<!--<div style="display:flex; align-items: baseline;margin-top: 20px;" >
-        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Tên thành viên: </p>
-        <input name="maTB"  th:value="${thanhVien.TenTV}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+        <input name="maTV"  th:value="${thanhVien.MaTV}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
  </div>
 <div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Tên thành viên: </p>
+        <input name="tenTV"  th:value="${thanhVien.HoTen}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+ </div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;" >
         <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Khoa: </p>
-        <input name="maTB"  th:value="${thanhVien.Khoa}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+        <input name="khoa"  th:value="${thanhVien.Khoa}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
  </div>
 <div style="display:flex; align-items: baseline;margin-top: 20px;" >
         <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Ngành: </p>
-        <input name="maTB"  th:value="${thanhVien.Nganh}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
- </div>-->
+        <input name="nganh"  th:value="${thanhVien.Nganh}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+ </div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Số điện thoại: </p>
+        <input name="sdt"  th:value="${thanhVien.Sdt}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+ </div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Email: </p>
+        <input name="email"  th:value="${thanhVien.Email}" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px; border: 0px;" readonly ></input>
+ </div>
+<form action="/hoso/save" method="POST">
+
+    <div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Mật khẩu cũ: </p>
+        <input th:if="${tGDatCho} == 'null'" name="password" type="password" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px;" required ></input>
+        <input th:if="${password} != 'null'" th:value="${password}"  name="password" type="password" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px;" required ></input>
+    </div>
+       <div th:if="${thongBao}" class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px" >
+            <p th:text="${thongBao}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+<div style="display:flex; align-items: baseline;margin-top: 20px;" >
+        <p style="font-size: 18px;width: 160px;margin-bottom: 0px;margin-top: 0px;">Mật khẩu mới: </p>
+        <input th:if="${tGDatCho} == 'null'" name="newpassword" type="password" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px;" required ></input>
+        <input th:if="${newpassword} != 'null'" th:value="${newpassword}"  name="newpassword" type="password" style="font-size: 18px;width: 300px;margin-bottom: 0px;margin-top: 0px;" required></input>
+ <button type="submit"  class="btn btn-success" style=" margin-left: 20px;" >Đổi mật khẩu</button>
+</div>
+</form>
+
+<div style="display: flex; justify-content: center;  border-top: 2px solid #000; margin-top: 20px;" >
+    <h4 style="margin-top: 20px;" >Đặt chổ thiết bị</h4>
+</div>
+
+<table class="table table-striped table-hover " id="datatablesSimple1">
+    <thead>
+      <tr>
+        <th scope="col">Mã TT</th>
+        <th scope="col">Mã thành viên</th>
+        <th scope="col">Tên thành viên</th>
+        <th scope="col">Mã thiết</th>
+        <th scope="col">Tên thiết bị</th>
+        <th scope="col">Thời gian đặt chổ</th>
+        <th scope="col">Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider ">
+        <tr  th:each ="item, state: ${list}" class="tr-body" style="height: 55px;">
+          <th th:utext="${item.maTT}" scope="row"></th>
+          <td th:utext="${item.maTV}" ></td>
+          <td th:utext="${item.thanhVien.HoTen}" ></td> 
+          <td th:utext="${item.MaTB}"></td>
+          <td th:utext="${item.thietBi.TenTB}"></td>
+          <td th:utext="${item.tGDatCho}"></td>
+          <td th:if="${item.tGMuon != null}" style="background-color: #198754;  border-radius: 5px;color: white;" > Đã duyệt </td>
+          <td th:if="${item.tGMuon == null and item.tGTra == null}" style="background-color: #ffc107; border-radius: 5px;"  > Chờ duyệt</td>
+           <td th:if="${item.tGTra != null and item.tGMuon == null}" style="background-color: #dc3545; border-radius: 5px;"  > Đã hủy</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="display: flex; justify-content: center;  border-top: 2px solid #000; margin-top: 20px;" >
+    <h4 style="margin-top: 20px;" >Thiết bị đang mượn</h4>
+</div>
+<table class="table table-striped table-hover "  id="datatablesSimple2">
+    <thead>
+      <tr>
+        <th scope="col">Mã TT</th>
+        <th scope="col">Mã thành viên</th>
+        <th scope="col">Tên thành viên</th>
+        <th scope="col">Mã thiết</th>
+        <th scope="col">Tên thiết bị</th>
+        <th scope="col">Thời gian mượn</th>
+        <th scope="col">Thời gian trả</th>
+        <th scope="col">Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider ">
+        <tr  th:each ="item, state: ${list1}" class="tr-body" style="height: 55px;">
+          <th th:utext="${item.maTT}" scope="row"></th>
+          <td th:utext="${item.maTV}" ></td>
+          <td th:utext="${item.thanhVien.HoTen}" ></td> 
+          <td th:utext="${item.MaTB}"></td>
+          <td th:utext="${item.thietBi.TenTB}"></td>
+          <td th:utext="${item.tGMuon}"></td>
+          <td th:utext="${item.tGTra}"></td>
+          <td th:if="${item.tGTra != null}" style="background-color: #198754;  border-radius: 5px;color: white;" > Đã trả </td>
+          <td th:if="${item.tGTra == null}" style="background-color: #ffc107; border-radius: 5px;"  > Đang mượn</td>
+        </tr>
+    </tbody>
+</table>
+<script>
+  window.addEventListener('DOMContentLoaded', event => {
+      const datatablesSimple = document.getElementById('datatablesSimple1');
+      if (datatablesSimple) {
+          new simpleDatatables.DataTable(datatablesSimple, {
+              labels: {
+                  perPage: 'mục mỗi trang', // Label cho dropdown chọn số lượng item trên mỗi trang
+                  noRows: 'Không có dữ liệu', // Label hiển thị khi không có dữ liệu
+                  info: 'Hiển thị {start} đến {end} của {rows} mục' // Label hiển thị thông tin pagination
+              }
+          });
+      }
+  });
+  window.addEventListener('DOMContentLoaded', event => {
+      const datatablesSimple = document.getElementById('datatablesSimple2');
+      if (datatablesSimple) {
+          new simpleDatatables.DataTable(datatablesSimple, {
+              labels: {
+                  perPage: 'mục mỗi trang', // Label cho dropdown chọn số lượng item trên mỗi trang
+                  noRows: 'Không có dữ liệu', // Label hiển thị khi không có dữ liệu
+                  info: 'Hiển thị {start} đến {end} của {rows} mục' // Label hiển thị thông tin pagination
+              }
+          });
+      }
+  });
+</script>
+
+<script src="/js/simple-datatables.min.js" crossorigin="anonymous"></script>

@@ -37,5 +37,54 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
+function validateForm_user() {
+    var maTV = document.getElementById("maTV").value;
+    var userName = document.getElementById("user_name").value;
+    var userAddress = document.getElementById("user_address").value;
+    var nganh = document.getElementById("nganh").value;
+    var userPhone = document.getElementById("user_phone").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+
+    
+
+
+    // Kiểm tra không được để trống
+    if (maTV === 0 || userName === "" || userAddress === "" || nganh === "" || userPhone === "" || email === "" || password === "") {
+        alert("Vui lòng điền đầy đủ thông tin.");
+        return false; // Ngăn chặn việc submit form
+    }
+
+    // Kiểm tra Tên Thành Viên, Khoa, Ngành nhập hợp lệ
+    var namePattern = /^[\p{L} ]*$/u;
+    if (!namePattern.test(userName) ) {
+        alert("Tên Thành Viên không hợp lệ. Vui lòng nhập chữ cái và khoảng trắng.");
+        return false; // Ngăn chặn việc submit form
+    }
+
+    // Kiểm tra số điện thoại là 10 số
+    var phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(userPhone)) {
+        alert("Số điện thoại phải có đúng 10 số.");
+        return false; // Ngăn chặn việc submit form
+    }
+
+    // Kiểm tra email đúng định dạng
+    var emailPattern = /\S+@\S+\.\S+/;
+    if (!emailPattern.test(email) || !email.includes('@gmail.com')) {
+        alert("Email không đúng định dạng hoặc không phải là gmail.com.");
+        return false; // Ngăn chặn việc submit form
+    }
+    if(document.getElementById("password_cf")){
+        var cf_password = document.getElementById("password_cf").value
+        if(cf_password != password){
+            alert("Yêu cầu nhập lại đúng mật khẩu!");
+            return false;
+        }
+    }
+    return true; // Cho phép submit form nếu tất cả điều kiện đều hợp lệ
+}
+
+
 
 
