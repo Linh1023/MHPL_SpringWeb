@@ -32,7 +32,7 @@
                     <td th:utext="${item.Sdt}"></td>
                     <td th:utext="${item.Password}"></td>
                     <td th:utext="${item.Email}"></td>
-                    <td><a class="btn btn-success" th:href="'/thanhvien/'+ ${item.MaTV}">Xem</a>
+                    <td>
                         <a class="btn btn-warning" th:href="'/admin/thanhvien/edit/'+ ${item.MaTV}">Edit</a>
                         <a class="btn btn-danger" th:href="'/admin/thanhvien/delete/'+ ${item.MaTV}">Delete</a>
                     </td>
@@ -42,7 +42,7 @@
     </div>
 </form>
 
-<form action="/uploadthanhvien" method="post" enctype="multipart/form-data">
+<form action="/admin/thanhvien/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file">
     chọn sheet<input type="number" name="sheet">
     <button type="submit">Import Excel</button>
