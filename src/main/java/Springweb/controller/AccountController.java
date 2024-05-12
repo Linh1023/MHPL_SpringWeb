@@ -6,6 +6,7 @@ package Springweb.controller;
 
 import Springweb.entity.ThanhVien;
 import Springweb.entity.ThongTinSD;
+import Springweb.entity.XuLy;
 import Springweb.repository.ThanhVienRepository;
 import Springweb.service.Mail;
 import Springweb.service.MailService;
@@ -13,7 +14,9 @@ import Springweb.service.PasswordResetTokenManager;
 import Springweb.service.ThanhVienService;
 import java.security.NoSuchAlgorithmException;
 import Springweb.repository.ThongTinSDRepository;
+import Springweb.repository.XuLyViPhamRepository;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public class AccountController {
     private ThanhVienRepository thanhVienRepository;
     @Autowired
     private ThanhVienService thanhVienService;
+    
+    @Autowired
+    private XuLyViPhamRepository xuLyViPhamRepository;
 
     @Autowired
     private MailService mailService;
@@ -96,10 +102,11 @@ public class AccountController {
        
         Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithTGDatChoIsNotNullFollowMaTV(maTV);
         Iterable<ThongTinSD> list1 = thongTinSDRepository.findAllWithMaTBNotNullFollowMaTV(maTV);
-       
+        List<XuLy> list2 = xuLyViPhamRepository.findByMaTVEquals(maTV);
         
         m.addAttribute("list", list);
       m.addAttribute("list1", list1);
+        m.addAttribute("list2", list2);
          
        m.addAttribute("tk", maTV);
        m.addAttribute("hoTen", hoTen);   
