@@ -7,6 +7,7 @@ package Springweb.controller;
 import Springweb.entity.ThanhVien;
 import Springweb.entity.ThongTinSD;
 import Springweb.repository.ThanhVienRepository;
+import Springweb.repository.ThongTinSDRepository;
 import java.util.Date;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,9 @@ public class AccountController {
     
      @Autowired
     private ThanhVienRepository thanhVienRepository; 
+     
+         @Autowired
+    private ThongTinSDRepository thongTinSDRepository;
      
 //     /login/dangnhap
   @PostMapping(value = "/login/dangnhap")
@@ -60,7 +64,9 @@ public class AccountController {
      @GetMapping(value = "/hoso")
      public String hoSo(    Model m,
                             HttpServletRequest request,
-                            RedirectAttributes redirectAttributes) {
+                            RedirectAttributes redirectAttributes
+ 
+     ) {
          
        int maTV = (int) request.getSession().getAttribute("maTV");
        String hoTen = (String) request.getSession().getAttribute("hoTen");
@@ -70,11 +76,53 @@ public class AccountController {
        ThanhVien tv = thanhVien.get();
        
        
+       
+       
+        Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithTGDatChoIsNotNullFollowMaTV(maTV);
+        Iterable<ThongTinSD> list1 = thongTinSDRepository.findAllWithMaTBNotNullFollowMaTV(maTV);
+       
+        
+        m.addAttribute("list", list);
+      m.addAttribute("list1", list1);
+         
        m.addAttribute("tk", maTV);
        m.addAttribute("hoTen", hoTen);   
        m.addAttribute("thanhVien", tv);   
        m.addAttribute("templateName", "hoso");
       return "sample";
+ 
+    }
+     
+        @PostMapping(value = "/hoso/save")
+        public String savePass(    Model m,
+                            HttpServletRequest request,
+                            RedirectAttributes redirectAttributes,
+                            @RequestParam("password") String password,
+                            @RequestParam("newpassword")  String newpassword
+                            ) {
+      
+       int maTV = (int) request.getSession().getAttribute("maTV");
+       Iterable<ThanhVien> list = thanhVienRepository.inspectAccount(maTV, password);
+       
+       Boolean flag = false;
+       for (ThanhVien tv : list) {   
+         flag = true;
+        }
+            System.out.println(flag);
+       if (flag == true) {
+            Optional<ThanhVien> thanhVien = thanhVienRepository.findById(maTV);
+            ThanhVien tvien = thanhVien.get();
+            tvien.setPassword(newpassword);
+            thanhVienRepository.save(tvien);
+       } else if (flag == false) {
+//           sai mk
+  
+         redirectAttributes.addFlashAttribute("thongBao", "Sai mật khẩu !");
+         redirectAttributes.addFlashAttribute("password", password);
+         redirectAttributes.addFlashAttribute("newpassword", newpassword);
+       }
+       
+       return "redirect:/hoso";
  
     }
     
