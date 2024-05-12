@@ -73,9 +73,9 @@ public class ThanhVienService {
     @Transactional
     public boolean deleteThanhVienById(int id) {
         // Kiểm tra xem có bất kỳ bản ghi nào trong thongtinsd có MaTB bằng id hay không
-        List<ThongTinSD> thongTinSDList = thongTinSDRepository.findByMaTBEquals(id);
+        List<ThongTinSD> thongTinSDList = thongTinSDRepository.findByMaTVEquals(id);
         List<XuLy> xuly = xulyVPRepository.findByMaTVEquals(id);
-        if (!thongTinSDList.isEmpty() && !xuly.isEmpty()) {
+        if (!thongTinSDList.isEmpty() || !xuly.isEmpty()) {
             return false;
         } else {
             thanhvienRepository.deleteById(id);

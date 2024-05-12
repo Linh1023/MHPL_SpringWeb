@@ -55,7 +55,7 @@ public class ThanhVienController {
                     listnot.add(post);
                 }
             }
-            if (listnot != null) {
+            if (!listnot.isEmpty()) {
                 String mess = listnot.get(0);
                 for (String post : listnot) {
                     if (listnot.get(0) == post) {

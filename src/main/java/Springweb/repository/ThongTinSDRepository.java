@@ -37,4 +37,5 @@ public interface ThongTinSDRepository extends CrudRepository<ThongTinSD, Integer
     Iterable<ThongTinSD> findAllWithTGDatChoTGMuon(int maTB);
 
     public List<ThongTinSD> findByMaTBEquals(int id);
+    public List<ThongTinSD> findByMaTVEquals(int id);
 }
