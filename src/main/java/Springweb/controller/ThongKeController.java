@@ -8,7 +8,9 @@ import Springweb.service.ChartResponse;
 import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
+import Springweb.entity.XuLy;
 import Springweb.repository.ThongTinSDRepository;
+import Springweb.repository.XuLyViPhamRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class ThongKeController {
     private ThietBiService thietbiService;
     @Autowired
     private ThongTinSDRepository thongTinSDRepository;
+    @Autowired
+    private XuLyViPhamRepository xuLyViPhamRepository;
 
     @GetMapping("/admin/thongke/thietbi_dm")
     private String CreateDataChartTB_DM(Model m,
@@ -194,10 +198,51 @@ public class ThongKeController {
 
         m.addAttribute("templateName", "admin/thongke/charttv");
         m.addAttribute("dataChart", createChartResponseLabels(counts, dates));
-        m.addAttribute("dataChart1", createChartResponsePie(counts1, labels1));
-        m.addAttribute("dataChart2", createChartResponsePie(counts2, labels2));
+        m.addAttribute("dataChart1", createChartResponsePie(counts1, labels1, "Số lượng thành viên"));
+        m.addAttribute("dataChart2", createChartResponsePie(counts2, labels2, "Số lượng thành viên"));
+        m.addAttribute("datebegin", dateBeginString);
+        m.addAttribute("dateend", dateEndString);
         m.addAttribute("showform", true);
 
+        return "admin/sample";
+    }
+
+    @GetMapping("/admin/thongke/vipham")
+    private String createDataChartVP(Model m) {
+
+        List<Object[]> ttxl = xuLyViPhamRepository.countByGroupByTrangThaiXL();
+        List<Integer> counts = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        for (Object[] tt : ttxl) {
+            Long sl = (Long) tt[0];
+            int trangthai = (int) tt[1];
+            String label;
+            if (trangthai == 1) {
+                label = "Đã được xử lý";
+            } else {
+                label = "Đang được xử lý";
+            }
+            System.out.println(sl + "-" + trangthai);
+            counts.add(sl.intValue());
+            labels.add(label);
+        }
+
+        List<XuLy> list = xuLyViPhamRepository.findByTrangThaiXL();
+        long sotien = 0;
+
+        for (XuLy x : list) {
+            Integer num = x.getSoTien();
+            sotien += num;
+        }
+        
+        String labelTongtien = "Tổng tiền: "  + sotien+"đ";
+
+        m.addAttribute("templateName", "admin/thongke/chartvp");
+        m.addAttribute("dataChart2", createChartResponsePie(counts, labels, "Số lượng trường hợp"));
+        if (sotien != 0) {
+            m.addAttribute("list", list);  
+            m.addAttribute("tongtien",labelTongtien);
+        }
         return "admin/sample";
     }
 
@@ -271,41 +316,21 @@ public class ThongKeController {
         ChartResponse.DataSet dataSet = new ChartResponse.DataSet();
         dataSet.data = counts;
         chartResponse.datasets = List.of(dataSet);
-        List<String> colorsBG = new ArrayList<>();
-        List<String> colorsBD = new ArrayList<>();
 
-        for (int i = 0; i < counts.size(); i++) {
-            int color1 = (int) Math.floor(Math.random() * 256);
-            int color2 = (int) Math.floor(Math.random() * 256);
-            int color3 = (int) Math.floor(Math.random() * 256);
-            colorsBG.add("rgba(" + color1 + "," + color2 + "," + color3 + ",0.2)");
-            colorsBD.add("rgba(" + color1 + "," + color2 + "," + color3 + ",1)");
-        }
-        System.out.println(colorsBD);
-        dataSet.backgroundColor = colorsBG;
-        dataSet.borderColor = colorsBD;
         dataSet.borderWidth = 1;
 
         dataSet.label = "Số lượng thành viên";
         return chartResponse;
     }
 
-    public ChartResponse createChartResponsePie(List<Integer> counts, List<String> labels) {
+    public ChartResponse createChartResponsePie(List<Integer> counts, List<String> labels, String label) {
         ChartResponse chartResponse = new ChartResponse();
         chartResponse.labels = labels;
         ChartResponse.DataSet dataSet = new ChartResponse.DataSet();
         dataSet.data = counts;
-        chartResponse.datasets = List.of(dataSet);
-        List<String> colorsBG = new ArrayList<>();
-        for (int i = 0; i < counts.size(); i++) {
-            int color1 = (int) Math.floor(Math.random() * 256);
-            int color2 = (int) Math.floor(Math.random() * 256);
-            int color3 = (int) Math.floor(Math.random() * 256);
-            colorsBG.add("rgb(" + color1 + "," + color2 + "," + color3 + ")");
-        }
-//        dataSet.backgroundColor = colorsBG;
         dataSet.hoverOffset = 4;
-        dataSet.label = "Số lượng thành viên";
+        dataSet.label = label;
+        chartResponse.datasets = List.of(dataSet);
         return chartResponse;
 
     }
