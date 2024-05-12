@@ -8,8 +8,8 @@
       display: none;
     }
   
-    .tr-body:hover .btn-edit,
-    .tr-body:hover .btn-delete {
+    tr:hover .btn-edit,
+    tr:hover .btn-delete {
       display: inline;
     }
   </style>
@@ -28,11 +28,11 @@
         <th scope="col">Tên thiết bị</th>
         <th scope="col">Thời gian đặt chổ</th>
         <th scope="col">Trạng thái</th>
-        <th scope="col" style="width:214.087px; ">Hành động</th>
+        <th scope="col" style="width:214.087px; "   data-sortable="false">Hành động</th>
       </tr>
     </thead>
     <tbody class="table-group-divider ">
-        <tr  th:each ="item, state: ${list}" class="tr-body" style="height: 55px;">
+        <tr  th:each ="item, state: ${list}" class="tr-body" style="height: 55px;" >
           <th th:utext="${item.maTT}" scope="row"></th>
           <td th:utext="${item.maTV}" ></td>
           <td th:utext="${item.thanhVien.HoTen}" ></td> 
@@ -42,9 +42,9 @@
           <td th:if="${item.tGMuon != null}" style="background-color: #198754;  border-radius: 5px;color: white;" > Đã duyệt </td>
           <td th:if="${item.tGMuon == null and item.tGTra == null}" style="background-color: #ffc107; border-radius: 5px;"  > Chờ duyệt</td>
            <td th:if="${item.tGTra != null and item.tGMuon == null}" style="background-color: #dc3545; border-radius: 5px;"  > Đã hủy</td>
-          <td>
+          <td data-sortable="false" >
             <a th:if="${item.tGMuon == null and item.tGTra == null}" th:href="'/admin/thongtinsd/duyet/'+ ${item.maTT}" type="submit" class="btn btn-warning btn-edit" >Duyệt</i></a>
-            <a th:if="${item.tGMuon == null and item.tGTra == null}" th:href="'/admin/thongtinsd/tuchoi/'+ ${item.maTT}" type="button" class="btn btn-danger btn-delete">Từ chối</i></a>
+            <a th:if="${item.tGMuon == null and item.tGTra == null}" th:href="'/admin/thongtinsd/tuchoi/'+ ${item.maTT}" type="button" style=" margin-top: 5px;" class="btn btn-danger btn-delete">Từ chối</i></a>
             <a th:if="${item.tGTra != null and item.tGMuon == null}" th:href="'/admin/thongtinsd/xoa/'+ ${item.maTT}" type="button" class="btn btn-danger btn-delete">Xóa</i></a>
           </td>
         </tr>
