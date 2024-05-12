@@ -6,12 +6,12 @@ package Springweb.controller;
 
 import Springweb.entity.ThanhVien;
 import Springweb.repository.ThanhVienRepository;
-import Springweb.service.EmailService;
+import Springweb.service.Mail;
+import Springweb.service.MailService;
 import Springweb.service.PasswordResetTokenManager;
+import Springweb.service.ThanhVienService;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,27 +31,35 @@ public class AccountController {
 
     @Autowired
     private ThanhVienRepository thanhVienRepository;
+    @Autowired
+    private ThanhVienService thanhVienService;
+
+    @Autowired
+    private MailService mailService;
+
+    private String tokenstatic;
+    private Integer id;
 
 //     /login/dangnhap
     @PostMapping(value = "/login/dangnhap")
-     public String dangnhap( @RequestParam("maTV") int maTV,
+    public String dangnhap(@RequestParam("maTV") int maTV,
             @RequestParam("passWord") String passWord,
             HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
 
-    if ( maTV == 123123 && passWord.equals("123123")) {
-         return "redirect:/admin/";
-    }     
-         
-    Iterable<ThanhVien> list = thanhVienRepository.inspectAccount(maTV, passWord);
-   
-    for (ThanhVien tv : list) {
-          request.getSession().setAttribute("maTV", tv.getMaTV());
-          request.getSession().setAttribute("hoTen", tv.getHoTen());
-         
-          System.out.println("Đã có 1 thành viên");
-          return "redirect:/";
-    }
+        if (maTV == 123123 && passWord.equals("123123")) {
+            return "redirect:/admin/";
+        }
+
+        Iterable<ThanhVien> list = thanhVienRepository.inspectAccount(maTV, passWord);
+
+        for (ThanhVien tv : list) {
+            request.getSession().setAttribute("maTV", tv.getMaTV());
+            request.getSession().setAttribute("hoTen", tv.getHoTen());
+
+            System.out.println("Đã có 1 thành viên");
+            return "redirect:/";
+        }
 
         redirectAttributes.addFlashAttribute("thongBao", "Sai tài khoản mật khẩu !");
         redirectAttributes.addFlashAttribute("tk", maTV);
@@ -126,20 +134,50 @@ public class AccountController {
     }
 
     @PostMapping("/password_reset")
-    public String passwordAction(@RequestParam(name = "email", required = true) String email, Model model) {
+    public String passwordreset(@RequestParam(name = "email", required = true) String email,
+            Model model,
+            RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
         if (!email.isEmpty()) {
-            EmailService emailService = new EmailService();
-            String token;
-            try {
-                PasswordResetTokenManager prtm = new PasswordResetTokenManager();
-                token = prtm.generateToken(email);
-                emailService.sendSimpleMessage(email, "Mã Đặt lại mật khẩu", token);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            int idn = thanhVienService.findIdByEmail(email); // Lấy ID từ repository
+            if (idn != 0) {
+                id = idn; // Gán id từ repository vào id
             }
+            PasswordResetTokenManager prtm = new PasswordResetTokenManager();
+            String token = prtm.generateToken();
+            tokenstatic = token;
+            Mail mail = new Mail();
+            mail.setMailFrom("sender@gmail.com");
+            mail.setMailTo(email);
+            mail.setMailSubject("Mã Đặt lại mật khẩu");
+            mail.setMailContent(token);
+            mailService.sendEmail(mail);
             return "password_reset";
         }
-        return "redirect:/";
+        redirectAttributes.addFlashAttribute("Bạn chưa nhập email");
+        return "redirect:/password";
+    }
+
+    @PostMapping("/password/check")
+    public String passwordcheck(
+            @RequestParam(name = "token", required = true) String token,
+            @RequestParam(name = "passwordnew", required = true) String passwordnew,
+            @RequestParam(name = "confirmpasswordnew", required = true) String confirmpasswordnew,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ) throws NoSuchAlgorithmException {
+        if (token.equals(tokenstatic)) {
+            if (passwordnew.equals(confirmpasswordnew)) {
+                thanhVienService.setPass(id, confirmpasswordnew);
+                redirectAttributes.addFlashAttribute("thongBao", "Đặt lại mật khẩu thành công");
+                return "redirect:/login";
+            } else {
+                redirectAttributes.addFlashAttribute("thongBao", tokenstatic + " tokenstatic " + token);
+                return "redirect:/login";
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("thongBao", "Không thành công");
+            return "redirect:/login";
+        }
     }
 
 }
