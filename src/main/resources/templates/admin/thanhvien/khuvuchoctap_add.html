@@ -2,7 +2,9 @@
 <form th:action="@{/admin/thanhvien/khuvuchoctap_save}" th:object="${thongtinsd}" method="POST">
 
     <div class="row">
-        <label>Mã Thành Viên</label><input th:field="*{MaTV}" class="form-control"/>
+        <select th:field="*{MaTV}" class="js-example-basic-single form-control">
+            <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
+        </select>
     </div>
     <div class="row">
         <label>Thời gian vào</label><input th:field="*{TGVao}" readonly class="form-control" id="thoiGianVao"/>
@@ -11,7 +13,13 @@
     <input type="submit" value="Create" class="btn btn-primary"/>
 
 </form>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    $(document).ready(function () {
+        $('.js-example-basic-single').select2();
+    });
 
         var currentTime = new Date();
         document.getElementById("thoiGianVao").value=currentTime;
