@@ -45,7 +45,6 @@
                     <td th:utext = "${item.TenTB}"></td>
                     <td th:utext = "${item.MoTaTB}"></td>
                     <td class="">
-                        <a class="btn btn-success" th:href="'/thietbi/'+ ${item.MaTB}">Xem</a>
                         <a class="btn btn-warning" th:href="'/admin/thietbi/edit/'+ ${item.MaTB}">Sửa</a>
                         <a class="btn btn-danger" th:href="'/admin/thietbi/delete/'+ ${item.MaTB}">Xóa</a></td>
                 </tr>  
@@ -57,7 +56,7 @@
     </div>
 </form>
   
-<form action="/upload" method="post" enctype="multipart/form-data">
+<form action="/admin/thietbi/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file">
     chọn sheet<input type="number" name="sheet">
     <button type="submit">Import Excel</button>
