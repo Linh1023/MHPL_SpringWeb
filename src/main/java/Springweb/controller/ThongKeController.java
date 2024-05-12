@@ -9,8 +9,8 @@ import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
 import Springweb.entity.XuLy;
-import Springweb.repository.ThongTinSDRepository;
-import Springweb.repository.XuLyViPhamRepository;
+import Springweb.service.ThongKeService;
+import Springweb.service.ThongTinSDService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,10 +32,13 @@ public class ThongKeController {
 
     @Autowired
     private ThietBiService thietbiService;
+    
     @Autowired
-    private ThongTinSDRepository thongTinSDRepository;
+    private ThongKeService thongKeService;
+    
     @Autowired
-    private XuLyViPhamRepository xuLyViPhamRepository;
+    private ThongTinSDService thongTinSDService;
+
 
     @GetMapping("/admin/thongke/thietbi_dm")
     private String CreateDataChartTB_DM(Model m,
@@ -43,7 +46,7 @@ public class ThongKeController {
             @RequestParam(name = "dateend", required = false) String dateEndString
     ) throws ParseException {
 
-        List<ThongTinSD> list = (List<ThongTinSD>) thongTinSDRepository.findAll();
+        List<ThongTinSD> list = (List<ThongTinSD>) thongTinSDService.findAll();
         List<ThongTinSD> listNew = new ArrayList<>();
 
         if (dateEndString != null && dateBeginString != null) {
@@ -93,7 +96,7 @@ public class ThongKeController {
     private String CreateDataChartTB_DaM(Model m, @RequestParam(name = "datebegin", required = false) String dateBeginString,
             @RequestParam(name = "dateend", required = false) String dateEndString
     ) throws ParseException {
-        List<ThongTinSD> list = (List<ThongTinSD>) thongTinSDRepository.findAll();
+        List<ThongTinSD> list = (List<ThongTinSD>) thongTinSDService.findAll();
         List<ThongTinSD> listNew = new ArrayList<>();
 
         if (dateEndString != null && dateBeginString != null) {
@@ -162,9 +165,9 @@ public class ThongKeController {
         List<Object[]> thanhVienTheoTG = null;
         if (dateEndString != null && dateBeginString != null && dateEndString != "" && dateBeginString != "") {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-            thanhVienTheoTG = thongTinSDRepository.countThanhVienTheoThoiGianLoc(inputFormat.parse(dateBeginString), inputFormat.parse(dateEndString));
+            thanhVienTheoTG = thongKeService.countThanhVienTheoThoiGianLoc(inputFormat.parse(dateBeginString), inputFormat.parse(dateEndString));
         } else {
-            thanhVienTheoTG = thongTinSDRepository.countThanhVienTheoThoiGian();
+            thanhVienTheoTG = thongKeService.countThanhVienTheoTG();
         }
         List<Integer> counts = new ArrayList<>();
         List<String> dates = new ArrayList<>();
@@ -177,7 +180,7 @@ public class ThongKeController {
 
         List<Integer> counts1 = new ArrayList<>();
         List<String> labels1 = new ArrayList<>();
-        List<Object[]> thanhVienTheoKhoa = thongTinSDRepository.countThanhVienTheoKhoa();
+        List<Object[]> thanhVienTheoKhoa = thongKeService.countThanhVienTheoKhoa();
         for (Object[] tt : thanhVienTheoKhoa) {
             Long sl = (Long) tt[0];
             String label = (String) tt[1];
@@ -188,7 +191,7 @@ public class ThongKeController {
 
         List<Integer> counts2 = new ArrayList<>();
         List<String> labels2 = new ArrayList<>();
-        List<Object[]> thanhVienTheoNganh = thongTinSDRepository.countThanhVienTheoNganh();
+        List<Object[]> thanhVienTheoNganh = thongKeService.countThanhVienTheoNganh();
         for (Object[] tt : thanhVienTheoNganh) {
             Long sl = (Long) tt[0];
             String label = (String) tt[1];
@@ -210,7 +213,7 @@ public class ThongKeController {
     @GetMapping("/admin/thongke/vipham")
     private String createDataChartVP(Model m) {
 
-        List<Object[]> ttxl = xuLyViPhamRepository.countByGroupByTrangThaiXL();
+        List<Object[]> ttxl = thongKeService.countByGroupByTrangThaiXL();
         List<Integer> counts = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         for (Object[] tt : ttxl) {
@@ -227,13 +230,8 @@ public class ThongKeController {
             labels.add(label);
         }
 
-        List<XuLy> list = xuLyViPhamRepository.findByTrangThaiXL();
-        long sotien = 0;
-
-        for (XuLy x : list) {
-            Integer num = x.getSoTien();
-            sotien += num;
-        }
+        List<XuLy> list = thongKeService.findByTrangThaiXL();
+        long sotien = thongKeService.tinhTongTien(list);
         
         String labelTongtien = "Tổng tiền: "  + sotien+"đ";
 

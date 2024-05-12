@@ -40,7 +40,11 @@ public class ThongTinSDService {
 
     @Autowired
     private HttpServletRequest request;
-
+    
+    public Iterable<ThongTinSD> findAll() {
+        return thongTinSDRepository.findAll();
+    }
+    
     public Iterable<ThongTinSD> findAllWithTGVaoNotNull() {
         Iterable<ThongTinSD> list = thongTinSDRepository.findAllWithTGVaoNotNull();
         return list;
