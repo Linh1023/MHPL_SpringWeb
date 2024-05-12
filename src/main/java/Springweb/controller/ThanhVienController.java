@@ -140,7 +140,7 @@ public class ThanhVienController {
 
     }
 
-    @PostMapping("/uploadthanhvien")
+    @PostMapping("/admin/thanhvien/upload")
     public String uploadExcelFile(
         @RequestParam("file") MultipartFile file,
         @RequestParam("sheet") String chonsheet,

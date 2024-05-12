@@ -12,5 +12,6 @@ public class ChartResponse {
         public List<String> backgroundColor;
         public List<String> borderColor;
         public int borderWidth;
+        public int hoverOffset;
     }
 }

@@ -3,6 +3,7 @@ package Springweb.service;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
 import Springweb.repository.ThietBiRepository;
+
 import Springweb.repository.ThongTinSDRepository;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,11 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+
 @Service
 public class ThietBiService {
+
+
 
     @Autowired
     private ThietBiRepository thietBiRepository;
@@ -50,16 +54,20 @@ public class ThietBiService {
         }
     }
 
-    public List<ThietBi> findAll() {
+ public List<ThietBi> findAll() {
         return (List<ThietBi>) thietBiRepository.findAll();
     }
-
+ 
+ 
     public void updateThietBi(ThietBi thietbi) {
         ThietBi existingThietBi = findById(thietbi.getMaTB());
         existingThietBi.setTenTB(thietbi.getTenTB());
         existingThietBi.setMoTaTB(thietbi.getMoTaTB());
         thietBiRepository.save(existingThietBi);
     }
+
+  
+
 
     @Transactional
     public boolean deleteThietBiById(int id) {
@@ -131,4 +139,5 @@ public class ThietBiService {
         }
         return true;
     }
+
 }

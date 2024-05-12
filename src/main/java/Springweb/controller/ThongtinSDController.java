@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,14 @@ public class ThongtinSDController {
     @GetMapping("/admin/thanhvien/khuvuchoctap_add")
     public String register(Model m) {
         ThongTinSD ttsd = new ThongTinSD();
+        List<Integer> options = new ArrayList<>();
+        List<ThanhVien> listthanhvien= (List<ThanhVien>) thanhVienRepository.findAll();
+        for(ThanhVien tv:listthanhvien){
+            options.add(tv.getMaTV());
+        }
+
+        // Chuyển danh sách dữ liệu sang view
+        m.addAttribute("options", options);
         m.addAttribute("thongtinsd", ttsd);
         m.addAttribute("templateName", "admin/thanhvien/khuVucHocTap_add");
         return "admin/sample";
