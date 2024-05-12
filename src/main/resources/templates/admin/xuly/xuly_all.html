@@ -5,15 +5,18 @@
     crossorigin="anonymous"
     />
 <div class="col-12 col-md-4">
-    <button
-        type="button"
-        class="btn btn-danger"
-        style="margin-right: 10px"
-        data-id="12"
-        >
-        Xóa theo khóa
-    </button>
-    <a class="btn btn-success" href="/admin/xuly/add">Thêm mới</a>
+   
+
+<!--    <form th:action="@{/admin/xuly/find}">
+        Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+        &nbsp;
+        <input type="submit" value="Search" />
+        &nbsp;
+        <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+    </form>-->
+        <a class="btn btn-success" href="/admin/xuly/add">Thêm mới</a>
+       
+  
 </div>
 <div class="datatable-container">
     <table
@@ -123,4 +126,9 @@
             $("#delRef").attr("href", href);
         });
     });
+</script>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/}]]";
+    }
 </script>
