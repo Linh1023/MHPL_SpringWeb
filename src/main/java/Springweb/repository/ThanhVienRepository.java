@@ -2,8 +2,6 @@
 package Springweb.repository;
 
 import Springweb.entity.ThanhVien;
-import Springweb.entity.ThietBi;
-import Springweb.entity.ThongTinSD;
 
 import java.util.List;
 

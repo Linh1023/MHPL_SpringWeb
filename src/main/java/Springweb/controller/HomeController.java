@@ -30,7 +30,7 @@ public class HomeController {
             Model m,
             RedirectAttributes redirectAttributes) {
         if (request.getSession().getAttribute("maTV") == null){
-            redirectAttributes.addFlashAttribute("thongBao", "Sai tài khoản mật khẩu !");
+            redirectAttributes.addFlashAttribute("thongBao", "Bạn cần đăng nhập trước !");
             return "redirect:login";
         }
         int maTV = (int) request.getSession().getAttribute("maTV");

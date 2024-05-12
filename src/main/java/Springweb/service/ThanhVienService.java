@@ -41,20 +41,6 @@ public class ThanhVienService {
             throw new RuntimeException("Không tìm thấy ThanhVien với ID: " + id);
         }
     }
-
-    // public List<ThietBi> searchThietBi(int category, String keyword) {
-    // switch (category) {
-    // case 1:
-    // return thietBiRepository.findByTenTBContaining(keyword);
-    // case 2:
-    // return thietBiRepository.findByMaTBEquals(Integer.parseInt(keyword));
-    // case 3:
-    // return thietBiRepository.findByMoTaTBContaining(keyword);
-    // default:
-    // throw new IllegalArgumentException("Category không hợp lệ: " + category);
-    // }
-    // }
-
     public List<ThanhVien> findAll() {
         return (List<ThanhVien>) thanhvienRepository.findAll();
     }
@@ -73,9 +59,9 @@ public class ThanhVienService {
     @Transactional
     public boolean deleteThanhVienById(int id) {
         // Kiểm tra xem có bất kỳ bản ghi nào trong thongtinsd có MaTB bằng id hay không
-        List<ThongTinSD> thongTinSDList = thongTinSDRepository.findByMaTBEquals(id);
+        List<ThongTinSD> thongTinSDList = thongTinSDRepository.findByMaTVEquals(id);
         List<XuLy> xuly = xulyVPRepository.findByMaTVEquals(id);
-        if (!thongTinSDList.isEmpty() && !xuly.isEmpty()) {
+        if (!thongTinSDList.isEmpty() || !xuly.isEmpty()) {
             return false;
         } else {
             thanhvienRepository.deleteById(id);
@@ -110,8 +96,10 @@ public class ThanhVienService {
                 for (Cell cell : row) {
                     switch (cellIndex) {
                         case 0:
-                            double textString = cell.getNumericCellValue();
-                            int demo = (int) textString;
+//                            double textString = cell.getNumericCellValue();
+//                            int demo = (int) textString;
+                            String textString = cell.getStringCellValue();
+                            int demo = Integer.parseInt(textString);
                             tv.setMaTV(demo);
                             break;
                         case 1:
@@ -127,8 +115,10 @@ public class ThanhVienService {
                             tv.setSdt(cell.getStringCellValue());
                             break;
                         case 5:
-                            double textString2 = cell.getNumericCellValue();
-                            int demo2 = (int) textString2;
+//                            double textString2 = cell.getNumericCellValue();
+//                            int demo2 = (int) textString2;
+                            String textString2 = cell.getStringCellValue();
+                            int demo2 = Integer.parseInt(textString2);
                             String demo3 = demo2 + "";
                             tv.setPassword(demo3);
                             break;
