@@ -1,0 +1,71 @@
+<form th:if="${showform}" action"" method="get">
+    <input th:if="${datebegin}" th:value="${datebegin}" type="date" name="datebegin">
+    <input th:unless="${datebegin}"  type="date" name="datebegin">
+    <input th:if="${dateend}" th:value="${dateend}" type="date" id="birthday" name="dateend">
+    <input th:unless="${dateend}"  type="date" id="birthday" name="dateend">
+    <input type="submit" value="Lọc">
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    #wrappermyChartTG {
+        width:100%;
+        height:700px;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    h4 {
+        text-align: center;
+    }
+</style>
+<div id="wrappermyChartTG">
+    <h4>Thống kê số lượng thành viên vào khu học tập theo thời gian</h4>
+    <canvas id="myChart" ></canvas>
+</div>
+<div id="wrapperChartPies" class="row">
+    <div class="col-sm-12 col-md-6 col-xxl-6"><h4>Thống kê số lượng thành viên vào khu học tập theo khoa</h4>
+        <canvas id="myChart1" ></canvas></div>     
+    <div class="col-sm-12 col-md-6 col-xxl-6"><h4>Thống kê số lượng thành viên vào khu học tập theo ngành</h4>
+        <canvas id="myChart2" ></canvas></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
+    var data = /*[[${dataChart}]]*/ [];
+    var dataPie1 = /*[[${dataChart1}]]*/ [];
+    var dataPie2 = /*[[${dataChart2}]]*/ [];
+    console.log(dataPie1);
+    console.log(dataPie1);
+    var options = {
+    responsive: true,
+    scales: {
+    yAxes: [{
+    ticks: {
+    beginAtZero: true
+    }
+    }]
+    }
+    };
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+    });
+    
+    var ctx1 = document.getElementById('myChart1').getContext('2d');
+    var myChart1 = new Chart(ctx1, {
+    type: 'pie',
+    data: dataPie1,
+    });
+      
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+    type: 'doughnut',
+    data: dataPie2,
+    });
+    
+</script>

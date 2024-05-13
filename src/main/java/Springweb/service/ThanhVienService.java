@@ -75,8 +75,9 @@ public class ThanhVienService {
 
     public boolean importExcel(ArrayList<ThanhVien> danhsachThanhVien) {
         for (ThanhVien tv : danhsachThanhVien) {
-            if (thanhvienRepository.existsById(tv.getMaTV()))
+            if (thanhvienRepository.existsById(tv.getMaTV())) {
                 continue;
+            }
             thanhvienRepository.save(tv);
         }
         return true;
@@ -146,5 +147,29 @@ public class ThanhVienService {
             }
         }
         return true;
+    }
+    @Transactional
+    public void setPass(Integer id, String newPassword) {
+        // Kiểm tra xem id và mật khẩu mới có tồn tại hay không
+        if (id != null && newPassword != null) {
+            // Tìm thành viên dựa trên id
+            ThanhVien thanhVien = thanhvienRepository.findById(id).orElse(null);
+            if (thanhVien != null) {
+                // Cập nhật mật khẩu mới
+                thanhVien.setPassword(newPassword);
+                // Lưu thay đổi vào cơ sở dữ liệu
+                thanhvienRepository.save(thanhVien);
+            } else {
+                // Xử lý trường hợp không tìm thấy thành viên với id tương ứng
+                throw new IllegalArgumentException("Không tìm thấy thành viên với ID: " + id);
+            }
+        } else {
+            // Xử lý trường hợp id hoặc mật khẩu mới là null
+            throw new IllegalArgumentException("ID hoặc mật khẩu mới không được để trống.");
+        }
+    }
+
+    public int findIdByEmail(String email) {
+        return thanhvienRepository.findIdByEmail(email);
     }
 }

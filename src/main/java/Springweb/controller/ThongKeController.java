@@ -8,7 +8,9 @@ import Springweb.service.ChartResponse;
 import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
+import Springweb.entity.XuLy;
 import Springweb.repository.ThongTinSDRepository;
+import Springweb.repository.XuLyViPhamRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class ThongKeController {
     private ThietBiService thietbiService;
     @Autowired
     private ThongTinSDRepository thongTinSDRepository;
+    @Autowired
+    private XuLyViPhamRepository xuLyViPhamRepository;
 
     @GetMapping("/admin/thongke/thietbi_dm")
     private String CreateDataChartTB_DM(Model m,
@@ -101,7 +105,6 @@ public class ThongKeController {
 
                 Date dateBegin = outputFormat.parse(outputFormat.format(inputFormat.parse(dateBeginString)));
                 Date dateEnd = outputFormat.parse(outputFormat.format(inputFormat.parse(dateEndString)));
-
                 for (ThongTinSD ttsd : list) {
                     Date tgm = ttsd.gettGMuon();
                     if (tgm != null) {
@@ -149,6 +152,97 @@ public class ThongKeController {
         m.addAttribute("dataChart", CreateChartResponseTB(counts));
         m.addAttribute("templateName", "admin/thongke/chart");
         m.addAttribute("showform", false);
+        return "admin/sample";
+    }
+
+    @GetMapping("/admin/thongke/thanhvien")
+    private String CreateDataChartTV(Model m,
+            @RequestParam(name = "datebegin", required = false) String dateBeginString,
+            @RequestParam(name = "dateend", required = false) String dateEndString) throws ParseException {
+        List<Object[]> thanhVienTheoTG = null;
+        if (dateEndString != null && dateBeginString != null && dateEndString != "" && dateBeginString != "") {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            thanhVienTheoTG = thongTinSDRepository.countThanhVienTheoThoiGianLoc(inputFormat.parse(dateBeginString), inputFormat.parse(dateEndString));
+        } else {
+            thanhVienTheoTG = thongTinSDRepository.countThanhVienTheoThoiGian();
+        }
+        List<Integer> counts = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+        for (Object[] tt : thanhVienTheoTG) {
+            Long sl = (Long) tt[0];
+            counts.add(sl.intValue());
+            Date date = (Date) tt[1];
+            dates.add(date.toString());
+        }
+
+        List<Integer> counts1 = new ArrayList<>();
+        List<String> labels1 = new ArrayList<>();
+        List<Object[]> thanhVienTheoKhoa = thongTinSDRepository.countThanhVienTheoKhoa();
+        for (Object[] tt : thanhVienTheoKhoa) {
+            Long sl = (Long) tt[0];
+            String label = (String) tt[1];
+            counts1.add(sl.intValue());
+            labels1.add(label);
+
+        }
+
+        List<Integer> counts2 = new ArrayList<>();
+        List<String> labels2 = new ArrayList<>();
+        List<Object[]> thanhVienTheoNganh = thongTinSDRepository.countThanhVienTheoNganh();
+        for (Object[] tt : thanhVienTheoNganh) {
+            Long sl = (Long) tt[0];
+            String label = (String) tt[1];
+            counts2.add(sl.intValue());
+            labels2.add(label);
+        }
+
+        m.addAttribute("templateName", "admin/thongke/charttv");
+        m.addAttribute("dataChart", createChartResponseLabels(counts, dates));
+        m.addAttribute("dataChart1", createChartResponsePie(counts1, labels1, "Số lượng thành viên"));
+        m.addAttribute("dataChart2", createChartResponsePie(counts2, labels2, "Số lượng thành viên"));
+        m.addAttribute("datebegin", dateBeginString);
+        m.addAttribute("dateend", dateEndString);
+        m.addAttribute("showform", true);
+
+        return "admin/sample";
+    }
+
+    @GetMapping("/admin/thongke/vipham")
+    private String createDataChartVP(Model m) {
+
+        List<Object[]> ttxl = xuLyViPhamRepository.countByGroupByTrangThaiXL();
+        List<Integer> counts = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        for (Object[] tt : ttxl) {
+            Long sl = (Long) tt[0];
+            int trangthai = (int) tt[1];
+            String label;
+            if (trangthai == 1) {
+                label = "Đã được xử lý";
+            } else {
+                label = "Đang được xử lý";
+            }
+            System.out.println(sl + "-" + trangthai);
+            counts.add(sl.intValue());
+            labels.add(label);
+        }
+
+        List<XuLy> list = xuLyViPhamRepository.findByTrangThaiXL();
+        long sotien = 0;
+
+        for (XuLy x : list) {
+            Integer num = x.getSoTien();
+            sotien += num;
+        }
+        
+        String labelTongtien = "Tổng tiền: "  + sotien+"đ";
+
+        m.addAttribute("templateName", "admin/thongke/chartvp");
+        m.addAttribute("dataChart2", createChartResponsePie(counts, labels, "Số lượng trường hợp"));
+        if (sotien != 0) {
+            m.addAttribute("list", list);  
+            m.addAttribute("tongtien",labelTongtien);
+        }
         return "admin/sample";
     }
 
@@ -214,5 +308,30 @@ public class ThongKeController {
         chartResponse.datasets = List.of(dataSet);
 
         return chartResponse;
+    }
+
+    public ChartResponse createChartResponseLabels(List<Integer> counts, List<String> labels) {
+        ChartResponse chartResponse = new ChartResponse();
+        chartResponse.labels = labels;
+        ChartResponse.DataSet dataSet = new ChartResponse.DataSet();
+        dataSet.data = counts;
+        chartResponse.datasets = List.of(dataSet);
+
+        dataSet.borderWidth = 1;
+
+        dataSet.label = "Số lượng thành viên";
+        return chartResponse;
+    }
+
+    public ChartResponse createChartResponsePie(List<Integer> counts, List<String> labels, String label) {
+        ChartResponse chartResponse = new ChartResponse();
+        chartResponse.labels = labels;
+        ChartResponse.DataSet dataSet = new ChartResponse.DataSet();
+        dataSet.data = counts;
+        dataSet.hoverOffset = 4;
+        dataSet.label = label;
+        chartResponse.datasets = List.of(dataSet);
+        return chartResponse;
+
     }
 }
