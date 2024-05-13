@@ -7,9 +7,11 @@ package Springweb.controller;
 import Springweb.entity.ThanhVien;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
+import Springweb.entity.XuLy;
 import Springweb.repository.ThanhVienRepository;
 import Springweb.repository.ThietBiRepository;
 import Springweb.repository.ThongTinSDRepository;
+import Springweb.repository.XuLyViPhamRepository;
 import Springweb.service.KhuVucHocTapService;
 import Springweb.service.ThietBiService;
 import Springweb.service.ThongTinSDService;
@@ -49,6 +51,9 @@ public class ThongtinSDController {
 
     @Autowired
     private ThanhVienRepository thanhVienRepository;
+    
+    @Autowired
+    private XuLyViPhamRepository xuLyViPhamRepository;
 
     // duong
 
@@ -84,7 +89,16 @@ public class ThongtinSDController {
     }
 
     @PostMapping("/admin/thanhvien/khuvuchoctap_save")
-    public String save(Model m, @ModelAttribute("thongtinsd") ThongTinSD ttsd) {
+    public String save(Model m, @ModelAttribute("thongtinsd") ThongTinSD ttsd, RedirectAttributes redirectAttributes) {
+         Iterable<XuLy> list = xuLyViPhamRepository.checkViPham(ttsd.getMaTV());
+         System.out.println(ttsd.getMaTV());
+
+        for (XuLy tv : list) {
+           redirectAttributes.addFlashAttribute("thongBao", "Thành viên bị vi phạm");
+            System.out.println("Có vào vi phạm");
+            return "redirect:/admin/thanhvien/khuvuchoctap_add";
+        }
+        
         khuVucHocTapService.saveThietBi(ttsd);
         return "redirect:/admin/thanhvien/khuvuchoctap";
     }

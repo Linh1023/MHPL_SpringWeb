@@ -1,12 +1,10 @@
 package Springweb.repository;
 
-import Springweb.entity.ThongTinSD;
 import Springweb.entity.XuLy;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +24,6 @@ public interface XuLyViPhamRepository extends CrudRepository<XuLy, Integer> {
     public List<XuLy> findByTrangThaiXL();
     
 
+    @Query("FROM XuLy  WHERE trangthaixl  = 0 AND matv = ?1")
+    public  Iterable<XuLy> checkViPham(int maTV);
 }
