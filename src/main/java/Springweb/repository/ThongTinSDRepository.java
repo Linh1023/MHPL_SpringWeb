@@ -28,16 +28,16 @@ public interface ThongTinSDRepository extends CrudRepository<ThongTinSD, Integer
     @Query("FROM ThongTinSD WHERE tgdatcho IS NOT NULL AND MaTV =?1")
     Iterable<ThongTinSD> findAllWithTGDatChoIsNotNullFollowMaTV(int maTV);
 
-    @Query("FROM ThongTinSD WHERE TGVao IS NOT NULL")
+     @Query("FROM ThongTinSD WHERE TGVao IS NOT NULL AND xuly IS NULL")
     Iterable<ThongTinSD> findAllWithTGVaoNotNull();
 
-    @Query("FROM ThongTinSD WHERE MaTV = :MaTV AND TGVao IS NOT NULL")
+    @Query("FROM ThongTinSD WHERE MaTV = :MaTV AND TGVao IS NOT NULL AND xuly IS NULL")
     Iterable<ThongTinSD> findByMaTV(int MaTV);
 
-    @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.khoa = :Khoa AND ttsd.tGVao IS NOT NULL")
+    @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.khoa = :Khoa AND ttsd.tGVao IS NOT NULL AND ttsd.xuly IS NULL")
     Iterable<ThongTinSD> findByKhoa(String Khoa);
 
-    @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.hoTen = :Name AND ttsd.tGVao IS NOT NULL")
+    @Query("SELECT ttsd FROM ThongTinSD ttsd JOIN ttsd.thanhVien tv WHERE tv.hoTen = :Name AND ttsd.tGVao IS NOT NULL AND ttsd.xuly IS NULL")
     Iterable<ThongTinSD> findByName(String Name);
 
     @Query("FROM ThongTinSD WHERE MaTB IS NOT NULL AND TGTra IS NULL AND MaTB =?1")
