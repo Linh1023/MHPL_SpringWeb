@@ -32,10 +32,27 @@ public class KhuVucHocTapService {
     public Iterable<ThongTinSD> searchTTSD(int category, String keyword) {
         switch (category) {
             case 1:
+                keyword=keyword.trim();
+
+                if(keyword.equals("")){
+                    return ttsdReposity.findAllWithTGVaoNotNull();
+                }else if(!keyword.matches("\\d+")){
+                    return ttsdReposity.findByKhoa(keyword);
+                }
                 return ttsdReposity.findByMaTV(Integer.parseInt(keyword.trim()));
             case 2:
+                 keyword=keyword.trim();
+
+                if(keyword.equals("")){
+                     return ttsdReposity.findAllWithTGVaoNotNull();
+                }
                 return ttsdReposity.findByKhoa(keyword.trim());
-            case 3:
+            case 3: 
+                keyword=keyword.trim();
+
+                if(keyword.equals("")){
+                    return ttsdReposity.findAllWithTGVaoNotNull();
+                }
                 return ttsdReposity.findByName(keyword.trim());
             default:
                 throw new IllegalArgumentException("Category không hợp lệ: " + category);
