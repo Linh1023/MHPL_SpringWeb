@@ -68,8 +68,9 @@ public class xulyviphamServcice {
     }
   }
 
-  public void save(XuLy xuly) {
+  public String save(XuLy xuly) {
     xulyRepo.save(xuly);
+    return null;
   }
   //     public List<XuLy> listAll(String keyword) {
   //         if (keyword != null) {
