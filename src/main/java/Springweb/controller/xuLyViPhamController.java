@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /*
@@ -28,7 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author dothetung
  */
-@Controller
+// @Controller
+@RestController
 public class xuLyViPhamController {
 
   //
@@ -43,6 +45,13 @@ public class xuLyViPhamController {
   @Autowired
   public void YourController(ThanhVienRepository thanhvienRepository) {
     this.thanhvienRepository = thanhvienRepository;
+  }
+
+  @GetMapping(value = "/admin/xuly/api/all")
+  public Iterable<XuLy> TakeAll() {
+    Iterable<XuLy> list = this.xulyService.findAll();
+
+    return list;
   }
 
   @GetMapping(value = "/admin/xuly/all")
@@ -126,7 +135,6 @@ public class xuLyViPhamController {
     this.xulyService.delete(id);
     return "redirect:/admin/xuly/all";
   }
-
   //   @GetMapping(value = { "/admin/xuly/timkiem/{id}" })
   //   public String findMaXL(Model model, @PathVariable("id") String id) {
   //     System.err.println("----" + id);
@@ -136,11 +144,11 @@ public class xuLyViPhamController {
   //     return "admin/xuly/xuly_all";
   //   }
 
-//  @RequestMapping("/admin/xuly/find")
-//  public String viewHomePage(Model model, @Param("keyword") String keyword) {
-//    List<XuLy> listProducts = xulyService.listAll(keyword);
-//    model.addAttribute("list", listProducts);
-//    model.addAttribute("templateName", "admin/xuly/xuly_all");
-//    return "admin/sample";
-//  }
+  //  @RequestMapping("/admin/xuly/find")
+  //  public String viewHomePage(Model model, @Param("keyword") String keyword) {
+  //    List<XuLy> listProducts = xulyService.listAll(keyword);
+  //    model.addAttribute("list", listProducts);
+  //    model.addAttribute("templateName", "admin/xuly/xuly_all");
+  //    return "admin/sample";
+  //  }
 }

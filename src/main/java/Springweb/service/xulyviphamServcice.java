@@ -30,7 +30,8 @@ public class xulyviphamServcice {
 
   @Autowired
   private XuLyViPhamRepository xulyRepo;
-@Autowired
+
+  @Autowired
   private XuLyRepo xulyRepo1;
 
   @Autowired
@@ -70,15 +71,11 @@ public class xulyviphamServcice {
   public void save(XuLy xuly) {
     xulyRepo.save(xuly);
   }
-  
-  
-  
-//     public List<XuLy> listAll(String keyword) {
-//         if (keyword != null) {
-//             return xulyRepo1.search(keyword);
-//         }
-//         return (List<XuLy>) xulyRepo1.findAll();
-//     }
+  //     public List<XuLy> listAll(String keyword) {
+  //         if (keyword != null) {
+  //             return xulyRepo1.search(keyword);
+  //         }
+  //         return (List<XuLy>) xulyRepo1.findAll();
+  //     }
 
-  
 }
