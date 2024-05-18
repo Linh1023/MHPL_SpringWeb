@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
-import Springweb.repository.ThietBiRepository;
 import Springweb.repository.ThongTinSDRepository;
 
 @Service

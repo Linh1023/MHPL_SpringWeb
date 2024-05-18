@@ -4,20 +4,11 @@
  */
 package Springweb.service;
 
-import Springweb.entity.ThietBi;
-import Springweb.entity.ThongTinSD;
+
 import Springweb.entity.XuLy;
-import Springweb.repository.ThongTinSDRepository;
-import Springweb.repository.XuLyRepo;
 import Springweb.repository.XuLyViPhamRepository;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +22,6 @@ public class xulyviphamServcice {
   @Autowired
   private XuLyViPhamRepository xulyRepo;
 
-  @Autowired
-  private XuLyRepo xulyRepo1;
 
   @Autowired
   public void xulyviphamService(XuLyViPhamRepository xulyRepo) {
@@ -72,11 +61,5 @@ public class xulyviphamServcice {
     xulyRepo.save(xuly);
     return null;
   }
-  //     public List<XuLy> listAll(String keyword) {
-  //         if (keyword != null) {
-  //             return xulyRepo1.search(keyword);
-  //         }
-  //         return (List<XuLy>) xulyRepo1.findAll();
-  //     }
 
 }

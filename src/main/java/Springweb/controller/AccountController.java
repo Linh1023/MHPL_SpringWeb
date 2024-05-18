@@ -15,7 +15,6 @@ import Springweb.service.ThanhVienService;
 import java.security.NoSuchAlgorithmException;
 import Springweb.repository.ThongTinSDRepository;
 import Springweb.repository.XuLyViPhamRepository;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;

@@ -8,21 +8,19 @@ import Springweb.entity.ThanhVien;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
 import Springweb.entity.XuLy;
+
 import Springweb.repository.ThanhVienRepository;
-import Springweb.repository.ThietBiRepository;
-import Springweb.repository.ThongTinSDRepository;
 import Springweb.repository.XuLyViPhamRepository;
+
 import Springweb.service.KhuVucHocTapService;
 import Springweb.service.ThietBiService;
 import Springweb.service.ThongTinSDService;
-import Springweb.service.ThietBiService;
+
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

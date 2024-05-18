@@ -4,10 +4,11 @@
  */
 package Springweb.controller;
 
-import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
+import Springweb.service.ThietBiService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;

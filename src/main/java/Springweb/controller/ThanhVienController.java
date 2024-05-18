@@ -1,14 +1,12 @@
 package Springweb.controller;
 
 import Springweb.entity.ThanhVien;
-import Springweb.repository.ThanhVienRepository;
 import Springweb.service.ThanhVienService;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -35,9 +32,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class ThanhVienController {
-
-    @Autowired
-    private ThanhVienRepository thanhvienRepository;
 
     @Autowired
     private ThanhVienService thanhvienService;
@@ -74,23 +68,17 @@ public class ThanhVienController {
 
     @GetMapping(value = "/admin/thanhvien/all")
     public String getAll(Model m) {
-        Iterable<ThanhVien> list = thanhvienRepository.findAll();
+        Iterable<ThanhVien> list = thanhvienService.findAll();
         m.addAttribute("list", list);
         m.addAttribute("templateName", "admin/thanhvien/thanhvien_all");
         return "admin/sample";
     }
 
-    @GetMapping(value = "/admin/thanhvien")
-    @ResponseBody
-    public Iterable getAlltest(Model m) {
-        Iterable<ThanhVien> list = thanhvienRepository.findAll();
-        return list;
-    }
 
     @GetMapping(value = { "/admin/thanhvien/edit/{id}" })
     public String edit(@PathVariable("id") int id, Model m) {
-        Optional<ThanhVien> cus = thanhvienRepository.findById(id);
-        cus.ifPresent(thanhvien -> m.addAttribute("thanhvien", cus));
+        ThanhVien cus = thanhvienService.findById(id);
+        m.addAttribute("thanhvien", cus);
         m.addAttribute("templateName", "admin/thanhvien/thanhvien_edit");
         return "admin/sample";
     }
@@ -105,17 +93,15 @@ public class ThanhVienController {
 
     @PostMapping("/admin/thanhvien/update")
     public String update(Model m, @ModelAttribute("thanhvien") ThanhVien thanhvien) {
-        Optional<ThanhVien> tb = thanhvienRepository.findById(thanhvien.getMaTV());
-        ThanhVien c;
-        c = tb.get();
-        c.setMaTV(thanhvien.getMaTV());
-        c.setHoTen(thanhvien.getHoTen());
-        c.setKhoa(thanhvien.getKhoa());
-        c.setNganh(thanhvien.getNganh());
-        c.setSdt(thanhvien.getSdt());
-        c.setPassword(thanhvien.getPassword());
-        c.setEmail(thanhvien.getEmail());
-        thanhvienRepository.save(c);
+        ThanhVien tb = thanhvienService.findById(thanhvien.getMaTV());
+        tb.setMaTV(thanhvien.getMaTV());
+        tb.setHoTen(thanhvien.getHoTen());
+        tb.setKhoa(thanhvien.getKhoa());
+        tb.setNganh(thanhvien.getNganh());
+        tb.setSdt(thanhvien.getSdt());
+        tb.setPassword(thanhvien.getPassword());
+        tb.setEmail(thanhvien.getEmail());
+        thanhvienService.save(tb);
         return "redirect:/admin/thanhvien/all";
     }
 
@@ -134,7 +120,7 @@ public class ThanhVienController {
     @PostMapping("/admin/thanhvien/save")
     public String save(Model m, @ModelAttribute("thanhvien") ThanhVien thanhvien) {
 
-        thanhvienRepository.save(thanhvien);
+        thanhvienService.save(thanhvien);
 
         return "redirect:/admin/thanhvien/all";
 

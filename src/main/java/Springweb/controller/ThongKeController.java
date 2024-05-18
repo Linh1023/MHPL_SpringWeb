@@ -4,19 +4,21 @@
  */
 package Springweb.controller;
 
-import Springweb.service.ChartResponse;
-import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
 import Springweb.entity.ThongTinSD;
 import Springweb.entity.XuLy;
+import Springweb.service.ChartResponse;
+import Springweb.service.ThietBiService;
 import Springweb.repository.ThongTinSDRepository;
 import Springweb.repository.XuLyViPhamRepository;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

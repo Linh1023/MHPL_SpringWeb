@@ -172,4 +172,8 @@ public class ThanhVienService {
     public int findIdByEmail(String email) {
         return thanhvienRepository.findIdByEmail(email);
     }
+
+    public void save(ThanhVien thanhvien) {
+        thanhvienRepository.save(thanhvien);
+    }
 }

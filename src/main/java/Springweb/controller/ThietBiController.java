@@ -1,13 +1,17 @@
 package Springweb.controller;
 
-import Springweb.service.ThietBiService;
 import Springweb.entity.ThietBi;
+
+import Springweb.service.ThietBiService;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,13 +78,6 @@ public class ThietBiController {
         return "admin/sample";
     }
 
-    // @GetMapping("/")
-    // public String user(Model m) {
-    // Iterable<ThietBi> list = thietbiService.findAll();
-    // m.addAttribute("list", list);
-    // m.addAttribute("templateName", "user_datcho");
-    // return "admin/sample";
-    // }
     @GetMapping(value = { "/admin/thietbi/edit/{id}" })
     public String edit(@PathVariable("id") int id, Model m) {
         ThietBi cus = thietbiService.findById(id);
